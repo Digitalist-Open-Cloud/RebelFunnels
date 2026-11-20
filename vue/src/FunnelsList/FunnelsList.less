@@ -1,0 +1,54 @@
+.funnelsList {
+  .funnelsList__search {
+    width: 280px;
+    max-width: 100%;
+    margin-bottom: 16px;
+    padding: 6px 10px;
+    border: 1px solid @theme-color-border;
+    border-radius: 3px;
+  }
+
+  table.entityTable tbody tr td.funnelsList__handleCell {
+    width: 1%;
+    // override: core sets the padding with !important
+    padding-right: 0 !important;
+  }
+
+  .funnelsList__nameCell {
+    min-width: 130px;
+  }
+
+  .funnelsList__name {
+    font-weight: bold;
+  }
+
+  .funnelsList__description {
+    display: block;
+    color: @theme-color-text-light;
+    font-size: 12px;
+  }
+
+  .funnelsList__chip {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: @theme-color-background-tinyContrast;
+    border: 1px solid @theme-color-border;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .funnelsList__handle:enabled {
+    cursor: grab;
+  }
+
+  .funnelsList__actions,
+  .funnelsList__date {
+    white-space: nowrap;
+  }
+
+  .funnelsList__none {
+    color: @theme-color-text-light;
+  }
+}

@@ -1,0 +1,153 @@
+.funnelEditor {
+  .funnelEditor__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .funnelEditor__sectionTitle {
+    margin: 32px 0 8px;
+  }
+
+  .funnelEditor__help {
+    color: @theme-color-text-light;
+  }
+
+  .funnelEditor__error {
+    color: @color-red-matomo;
+  }
+
+  .funnelEditor__step {
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid @theme-color-border;
+    border-radius: 6px;
+    background: @theme-color-background-base;
+  }
+
+  .funnelEditor__stepHead,
+  .funnelEditor__rule {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .funnelEditor__handle {
+    cursor: grab;
+  }
+
+  .funnelEditor__stepNumber {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: @theme-color-brand;
+    color: @theme-color-brand-contrast;
+    font-size: 12px;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  .funnelEditor__stepName,
+  .funnelEditor__ruleValue,
+  .funnelEditor__testUrl,
+  .funnelEditor__rule select {
+    height: 34px;
+    padding: 4px 8px;
+    border: 1px solid @theme-color-border;
+    border-radius: 3px;
+    background: @theme-color-background-base;
+    color: @theme-color-text;
+  }
+
+  .funnelEditor__stepName {
+    flex: 1;
+    min-width: 0;
+    font-weight: bold;
+  }
+
+  .funnelEditor__ruleValue {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .funnelEditor__testUrl {
+    width: 100%;
+  }
+
+  .funnelEditor__rule select {
+    flex: none;
+    width: auto;
+    max-width: 24%;
+  }
+
+  .funnelEditor__or {
+    flex: none;
+    width: 44px;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .funnelEditor__matches {
+    flex: none;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: @theme-color-brand;
+    color: @theme-color-brand-contrast;
+    font-size: 12px;
+  }
+
+  .funnelEditor__addRule {
+    margin-left: 44px;
+  }
+
+  .funnelEditor__direct {
+    display: block;
+    margin: 4px 0 0 44px;
+  }
+
+  .funnelEditor__segment {
+    // override: the segment generator has a fixed width wider than the form column
+    .segment-generator { width: 100%; }
+  }
+
+  .funnelEditor__warning {
+    margin-top: 32px;
+  }
+
+  .funnelEditor__actions {
+    display: flex;
+    align-items: safe center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .funnelEditor__cancel {
+    border: 0;
+    background: none;
+    color: @theme-color-link;
+    cursor: pointer;
+  }
+
+  .funnelEditor__preview {
+    position: sticky;
+    top: 16px;
+  }
+
+  .funnelEditor__previewTitle {
+    margin-top: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .funnelEditor__layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .funnelEditor__preview {
+      position: static;
+    }
+  }
+}
