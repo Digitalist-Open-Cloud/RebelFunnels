@@ -131,6 +131,39 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Pauses a funnel: it keeps its archived data, but gets no new data until it is resumed.
+     */
+    public function pauseFunnel(int $idSite, int $idFunnel): void
+    {
+        $this->funnelManager->pauseFunnel($this->getFunnelToManage($idSite, $idFunnel));
+    }
+
+    /**
+     * Resumes a paused funnel. The time it was paused is archived as well.
+     */
+    public function resumeFunnel(int $idSite, int $idFunnel): void
+    {
+        $this->funnelManager->resumeFunnel($this->getFunnelToManage($idSite, $idFunnel));
+    }
+
+    /**
+     * Copies a funnel, within its website or to another one. A funnel with a goal as a step
+     * can only be copied to a website that has a goal with the same ID.
+     *
+     * @param int $idDestinationSite the website to copy the funnel to. By default the funnel
+     *                               is copied within its website, with "(copy)" in its name.
+     * @return int the ID of the new funnel
+     */
+    public function duplicateFunnel(int $idSite, int $idFunnel, int $idDestinationSite = 0): int
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $idDestinationSite = $idDestinationSite ?: $idSite;
+        Piwik::checkUserHasWriteAccess($idDestinationSite);
+
+        return $this->funnelManager->duplicateFunnel($this->funnelManager->getFunnel($idSite, $idFunnel), $idDestinationSite);
+    }
+
+    /**
      * Sets the order of the funnels of a site in the reporting menu.
      *
      * @param int[] $idFunnels the IDs of all funnels of the site in their new order. Moving a

@@ -19,6 +19,7 @@ export interface Funnel {
   steps: Step[];
   segment_filter: string;
   position: number;
+  paused: boolean;
   created_date: string;
   updated_date: string;
 }
@@ -55,8 +56,8 @@ export interface FunnelTemplate {
   steps: Step[];
 }
 
+// The same funnel for another period or segment.
 export interface Comparison {
   label: string;
-  funnel_entries: number;
-  funnel_conversions: number;
+  steps: StepResult[];
 }

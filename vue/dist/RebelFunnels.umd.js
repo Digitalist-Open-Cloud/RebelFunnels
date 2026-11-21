@@ -133,6 +133,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "FunnelChart", function() { return /* reexport */ FunnelChart; });
+__webpack_require__.d(__webpack_exports__, "FunnelDuplicateForm", function() { return /* reexport */ FunnelDuplicateForm; });
 __webpack_require__.d(__webpack_exports__, "FunnelEditor", function() { return /* reexport */ FunnelEditor; });
 __webpack_require__.d(__webpack_exports__, "FunnelsList", function() { return /* reexport */ FunnelsList; });
 __webpack_require__.d(__webpack_exports__, "ManageFunnels", function() { return /* reexport */ ManageFunnels; });
@@ -156,7 +157,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelChart/FunnelChart.vue?vue&type=template&id=8c654912
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelChart/FunnelChart.vue?vue&type=template&id=57af51d6
 
 const _hoisted_1 = {
   class: "funnelChart"
@@ -203,40 +204,55 @@ const _hoisted_14 = {
   class: "funnelChart__track"
 };
 const _hoisted_15 = {
+  class: "funnelChart__compareHead"
+};
+const _hoisted_16 = {
+  class: "funnelChart__compareLabel"
+};
+const _hoisted_17 = {
+  class: "funnelChart__visits"
+};
+const _hoisted_18 = {
+  class: "funnelChart__share"
+};
+const _hoisted_19 = {
+  class: "funnelChart__track funnelChart__track--compare"
+};
+const _hoisted_20 = {
   key: 0,
   class: "funnelChart__revenue"
 };
-const _hoisted_16 = {
+const _hoisted_21 = {
   key: 1,
   class: "funnelChart__between"
 };
-const _hoisted_17 = {
+const _hoisted_22 = {
   class: "funnelChart__proceeded"
 };
-const _hoisted_18 = ["title", "aria-expanded", "onClick"];
-const _hoisted_19 = {
+const _hoisted_23 = ["title", "aria-expanded", "onClick"];
+const _hoisted_24 = {
   key: 1,
   class: "funnelChart__exits"
 };
-const _hoisted_20 = {
+const _hoisted_25 = {
   key: 2,
   class: "funnelChart__time"
 };
-const _hoisted_21 = {
+const _hoisted_26 = {
   key: 2,
   class: "funnelChart__next"
 };
-const _hoisted_22 = {
+const _hoisted_27 = {
   class: "funnelChart__nextTitle"
 };
-const _hoisted_23 = {
+const _hoisted_28 = {
   key: 0,
   class: "loadingPiwik"
 };
-const _hoisted_24 = {
+const _hoisted_29 = {
   key: 1
 };
-const _hoisted_25 = {
+const _hoisted_30 = {
   class: "funnelChart__nextLabel"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -246,7 +262,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "funnelChart__comparison",
       key: index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.label) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.percent(comparison.funnel_conversions, comparison.funnel_entries)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ConversionsOfEntries', _ctx.number(comparison.funnel_conversions), _ctx.number(comparison.funnel_entries))), 1)]);
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["funnelChart__dot", `funnelChart__series${index % 4}`])
+    }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.label) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.percent(_ctx.lastVisits(comparison), _ctx.firstVisits(comparison))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ConversionsOfEntries', _ctx.number(_ctx.lastVisits(comparison)), _ctx.number(_ctx.firstVisits(comparison)))), 1)]);
   }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", _hoisted_8, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.steps, (step, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       class: "funnelChart__step",
@@ -256,21 +274,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
         width: `${step.nb_visits / _ctx.entries * 100}%`
       })
-    }, null, 4)]), step.funnel_revenue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_RevenueOf', _ctx.money(step.funnel_revenue))), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), step.funnel_proceeded !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_17, " ↓ " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_WentOn', _ctx.number(step.funnel_proceeded))), 1), _ctx.idFunnel && step.idsubtable && step.funnel_exits ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+    }, null, 4)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.comparisons, (comparison, comparisonIndex) => {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+        class: "funnelChart__compare",
+        key: comparisonIndex
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.label), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.number(_ctx.visitsOf(comparison, index))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.percent(_ctx.visitsOf(comparison, index), _ctx.firstVisits(comparison))), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["funnelChart__bar", `funnelChart__series${comparisonIndex % 4}`]),
+        style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
+          width: `${_ctx.shareOf(comparison, index)}%`
+        })
+      }, null, 6)])]);
+    }), 128)), step.funnel_revenue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_RevenueOf', _ctx.money(step.funnel_revenue))), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), step.funnel_proceeded !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_22, " ↓ " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_WentOn', _ctx.number(step.funnel_proceeded))), 1), _ctx.idFunnel && step.idsubtable && step.funnel_exits ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
       key: 0,
       type: "button",
       class: "funnelChart__exits funnelChart__exits--link",
       title: _ctx.translate('RebelFunnels_ShowNext'),
       "aria-expanded": _ctx.opened === index,
       onClick: $event => _ctx.toggle(index, step.idsubtable)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.leftText(step)), 9, _hoisted_18)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.leftText(step)), 1)), step.funnel_proceeded ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AvgTimeToNext', _ctx.duration(_ctx.steps[index + 1].funnel_avg_step_time))), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.opened === index ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_WhereTheyWent')), 1), !_ctx.nextActions ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", _hoisted_24, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.nextActions, (action, actionIndex) => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.leftText(step)), 9, _hoisted_23)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.leftText(step)), 1)), step.funnel_proceeded ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AvgTimeToNext', _ctx.duration(_ctx.steps[index + 1].funnel_avg_step_time))), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.opened === index ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_27, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_WhereTheyWent')), 1), !_ctx.nextActions ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_28, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", _hoisted_29, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.nextActions, (action, actionIndex) => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
         key: actionIndex
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(action.label), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.number(action.nb_visits)), 1)]);
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_30, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(action.label), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.number(action.nb_visits)), 1)]);
     }), 128))]))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
   }), 128))])], 64))]);
 }
-// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelChart/FunnelChart.vue?vue&type=template&id=8c654912
+// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelChart/FunnelChart.vue?vue&type=template&id=57af51d6
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -338,6 +366,20 @@ var external_CoreHome_ = __webpack_require__("19dc");
         }
       });
     },
+    firstVisits(comparison) {
+      return comparison.steps.length ? comparison.steps[0].nb_visits : 0;
+    },
+    lastVisits(comparison) {
+      return this.visitsOf(comparison, comparison.steps.length - 1);
+    },
+    visitsOf(comparison, index) {
+      return comparison.steps[index] ? comparison.steps[index].nb_visits : 0;
+    },
+    // The width of the bar of a step: its share of the visits that entered that funnel.
+    shareOf(comparison, index) {
+      const entries = this.firstVisits(comparison);
+      return entries ? this.visitsOf(comparison, index) / entries * 100 : 0;
+    },
     money(value) {
       return external_CoreHome_["NumberFormatter"].formatCurrency(value, this.currency, 2, 0);
     },
@@ -362,6 +404,73 @@ var external_CoreHome_ = __webpack_require__("19dc");
 FunnelChartvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FunnelChart = (FunnelChartvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.vue?vue&type=template&id=10289878
+
+const FunnelDuplicateFormvue_type_template_id_10289878_hoisted_1 = {
+  class: "funnelDuplicateForm"
+};
+const FunnelDuplicateFormvue_type_template_id_10289878_hoisted_2 = {
+  class: "funnelDuplicateForm__text"
+};
+const FunnelDuplicateFormvue_type_template_id_10289878_hoisted_3 = {
+  class: "funnelDuplicateForm__site"
+};
+const FunnelDuplicateFormvue_type_template_id_10289878_hoisted_4 = ["disabled"];
+function FunnelDuplicateFormvue_type_template_id_10289878_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FunnelDuplicateFormvue_type_template_id_10289878_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", FunnelDuplicateFormvue_type_template_id_10289878_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_DuplicateTo', _ctx.itemName)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FunnelDuplicateFormvue_type_template_id_10289878_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+    modelValue: _ctx.site,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.site = $event),
+    "show-selected-site": true,
+    "show-all-sites-item": false,
+    "switch-site-on-select": false,
+    "only-sites-with-at-least-write-access": true
+  }, null, 8, ["modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    type: "button",
+    class: "btn funnelDuplicateForm__confirm",
+    disabled: _ctx.isBusy,
+    onClick: _cache[1] || (_cache[1] = $event => _ctx.$emit('confirm', _ctx.site))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Duplicate')), 9, FunnelDuplicateFormvue_type_template_id_10289878_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    type: "button",
+    class: "funnelDuplicateForm__cancel",
+    onClick: _cache[2] || (_cache[2] = $event => _ctx.$emit('cancel'))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Cancel')), 1)]);
+}
+// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.vue?vue&type=template&id=10289878
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var FunnelDuplicateFormvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    itemName: {
+      type: String,
+      required: true
+    },
+    isBusy: Boolean
+  },
+  emits: ['confirm', 'cancel'],
+  components: {
+    SiteSelector: external_CoreHome_["SiteSelector"]
+  },
+  data() {
+    return {
+      site: {
+        id: external_CoreHome_["Matomo"].idSite,
+        name: external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName)
+      }
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.vue
+
+
+
+FunnelDuplicateFormvue_type_script_lang_ts.render = FunnelDuplicateFormvue_type_template_id_10289878_render
+
+/* harmony default export */ var FunnelDuplicateForm = (FunnelDuplicateFormvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelEditor/FunnelEditor.vue?vue&type=template&id=d6068fe2
 
 const FunnelEditorvue_type_template_id_d6068fe2_hoisted_1 = {
@@ -414,13 +523,13 @@ const FunnelEditorvue_type_template_id_d6068fe2_hoisted_24 = {
   class: "funnelEditor__direct"
 };
 const FunnelEditorvue_type_template_id_d6068fe2_hoisted_25 = ["name", "onUpdate:modelValue"];
-const _hoisted_26 = ["id"];
-const _hoisted_27 = ["value"];
-const _hoisted_28 = ["disabled"];
-const _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const FunnelEditorvue_type_template_id_d6068fe2_hoisted_26 = ["id"];
+const FunnelEditorvue_type_template_id_d6068fe2_hoisted_27 = ["value"];
+const FunnelEditorvue_type_template_id_d6068fe2_hoisted_28 = ["disabled"];
+const FunnelEditorvue_type_template_id_d6068fe2_hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-const _hoisted_30 = {
+const FunnelEditorvue_type_template_id_d6068fe2_hoisted_30 = {
   key: 0,
   class: "funnelEditor__help"
 };
@@ -619,14 +728,14 @@ function FunnelEditorvue_type_template_id_d6068fe2_render(_ctx, _cache, $props, 
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("option", {
           key: value,
           value: value
-        }, null, 8, _hoisted_27);
-      }), 128))], 8, _hoisted_26);
+        }, null, 8, FunnelEditorvue_type_template_id_d6068fe2_hoisted_27);
+      }), 128))], 8, FunnelEditorvue_type_template_id_d6068fe2_hoisted_26);
     }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
       class: "funnelEditor__addStep btn-flat",
       disabled: _ctx.form.steps.length >= _ctx.maxSteps,
       onClick: _cache[5] || (_cache[5] = $event => _ctx.addStep())
-    }, [_hoisted_29, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AddStep')), 1)], 8, _hoisted_28), _ctx.form.steps.length >= _ctx.maxSteps ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_30, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_MaxStepsReached', _ctx.maxSteps)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_31, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_TestUrl')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_32, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_TestUrlHelp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    }, [FunnelEditorvue_type_template_id_d6068fe2_hoisted_29, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AddStep')), 1)], 8, FunnelEditorvue_type_template_id_d6068fe2_hoisted_28), _ctx.form.steps.length >= _ctx.maxSteps ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", FunnelEditorvue_type_template_id_d6068fe2_hoisted_30, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_MaxStepsReached', _ctx.maxSteps)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_31, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_TestUrl')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_32, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_TestUrlHelp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "text",
       class: "funnelEditor__testUrl browser-default",
       name: "testUrl",
@@ -979,150 +1088,179 @@ function rulesOf(steps) {
 FunnelEditorvue_type_script_lang_ts.render = FunnelEditorvue_type_template_id_d6068fe2_render
 
 /* harmony default export */ var FunnelEditor = (FunnelEditorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.vue?vue&type=template&id=223855ea
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.vue?vue&type=template&id=7925ab6c
 
-const FunnelsListvue_type_template_id_223855ea_hoisted_1 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_1 = {
   class: "funnelsList"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_2 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_2 = {
   class: "loadingPiwik"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_3 = ["placeholder", "aria-label"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, null, -1);
-const FunnelsListvue_type_template_id_223855ea_hoisted_5 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_3 = ["placeholder", "aria-label"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, null, -1);
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_5 = {
   key: 0
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_6 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_6 = {
   colspan: "8"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_7 = ["draggable", "onDragstart", "onDrop"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_8 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_7 = ["draggable", "onDragstart", "onDrop"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_8 = {
   class: "funnelsList__handleCell"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_9 = ["title", "disabled", "onKeydown"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_10 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_9 = ["title", "disabled", "onKeydown"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_10 = {
   class: "funnelsList__nameCell"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_11 = ["href", "title"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_12 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_11 = ["href", "title"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_12 = {
   key: 0,
+  class: "funnelsList__chip"
+};
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_13 = {
+  key: 1,
   class: "funnelsList__description"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_13 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_14 = {
   key: 0,
   class: "funnelsList__date"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_14 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_15 = {
   key: 1,
   class: "funnelsList__none"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_15 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_16 = {
   key: 2,
   class: "funnelsList__description"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_16 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_17 = {
   class: "funnelsList__date"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_17 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_18 = {
   class: "funnelsList__actions"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_18 = ["title", "disabled", "onClick"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_19 = ["title", "disabled", "onClick"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_20 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_19 = ["title", "disabled", "onClick"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_20 = ["title", "disabled", "onClick"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_21 = ["title", "onClick"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_22 = ["title", "disabled", "onClick"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_23 = {
+  key: 0,
+  class: "funnelsList__duplicate"
+};
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_24 = {
   class: "tableActionBar"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_21 = ["disabled"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_25 = ["disabled"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-const FunnelsListvue_type_template_id_223855ea_hoisted_23 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_27 = {
   class: "funnelsList__examples"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_24 = ["onClick"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_25 = ["href"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_26 = {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_28 = ["onClick"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_29 = ["href"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_30 = {
   class: "ui-confirm",
   ref: "confirm"
 };
-const FunnelsListvue_type_template_id_223855ea_hoisted_27 = ["value"];
-const FunnelsListvue_type_template_id_223855ea_hoisted_28 = ["value"];
-function FunnelsListvue_type_template_id_223855ea_render(_ctx, _cache, $props, $setup, $data, $options) {
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_31 = ["value"];
+const FunnelsListvue_type_template_id_7925ab6c_hoisted_32 = ["value"];
+function FunnelsListvue_type_template_id_7925ab6c_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
+  const _component_FunnelDuplicateForm = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FunnelDuplicateForm");
   const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   const _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FunnelsListvue_type_template_id_223855ea_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, null, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ManageFunnelsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FunnelsListvue_type_template_id_7925ab6c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, null, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ManageFunnelsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "search",
       class: "funnelsList__search browser-default",
       "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.search = $event),
       placeholder: _ctx.translate('General_Search'),
       "aria-label": _ctx.translate('General_Search')
-    }, null, 8, FunnelsListvue_type_template_id_223855ea_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.search], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.funnels.length > 1]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [FunnelsListvue_type_template_id_223855ea_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Steps')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AvailableFor')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ArchivedData')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Updated')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!_ctx.visibleFunnels.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", FunnelsListvue_type_template_id_223855ea_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_223855ea_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.funnels.length ? 'General_SearchNoResults' : 'RebelFunnels_NoFunnelsYet')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleFunnels, funnel => {
+    }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.search], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.funnels.length > 1]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [FunnelsListvue_type_template_id_7925ab6c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Steps')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_AvailableFor')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_ArchivedData')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Updated')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!_ctx.visibleFunnels.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", FunnelsListvue_type_template_id_7925ab6c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_7925ab6c_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.funnels.length ? 'General_SearchNoResults' : 'RebelFunnels_NoFunnelsYet')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleFunnels, funnel => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
         key: funnel.idfunnel,
         draggable: _ctx.canManage(funnel),
         onDragstart: $event => _ctx.dragged = funnel,
         onDragover: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent"])),
         onDrop: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.move(_ctx.dragged, funnel), ["prevent"])
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_223855ea_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_7925ab6c_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
         type: "button",
         class: "table-action icon-menu-hamburger funnelsList__handle",
         title: _ctx.translate('RebelFunnels_Reorder'),
         disabled: !_ctx.canManage(funnel),
         onKeydown: [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.moveBy(funnel, -1), ["prevent"]), ["up"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.moveBy(funnel, 1), ["prevent"]), ["down"])]
-      }, null, 40, FunnelsListvue_type_template_id_223855ea_hoisted_9)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(funnel.idfunnel), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_223855ea_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }, null, 40, FunnelsListvue_type_template_id_7925ab6c_hoisted_9)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(funnel.idfunnel), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_7925ab6c_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         class: "funnelsList__name",
         href: _ctx.funnelUrl(funnel),
         title: _ctx.translate('RebelFunnels_ViewFunnel')
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.decode(funnel.name)), 9, FunnelsListvue_type_template_id_223855ea_hoisted_11), funnel.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.decode(funnel.description)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(funnel.steps, (step, index) => {
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.decode(funnel.name)), 9, FunnelsListvue_type_template_id_7925ab6c_hoisted_11), funnel.paused ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Paused')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), funnel.description ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.decode(funnel.description)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(funnel.steps, (step, index) => {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
           class: "funnelsList__chip",
           key: index
         }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(index + 1) + ". " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.decode(step.name)), 1);
       }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(funnel.idsite === 0 ? _ctx.translate('RebelFunnels_AllWebsites') : _ctx.translate('RebelFunnels_ThisWebsite')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [_ctx.statusById[funnel.idfunnel] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
         key: 0
-      }, [_ctx.statusById[funnel.idfunnel].first_date ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].first_date) + " – " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].last_date), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_NoArchivedData')), 1)), _ctx.statusById[funnel.idfunnel].is_queued ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].queued_days ? _ctx.translate('RebelFunnels_DaysWaiting', _ctx.statusById[funnel.idfunnel].queued_days) : _ctx.translate('RebelFunnels_WaitingToBeArchived')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", FunnelsListvue_type_template_id_223855ea_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(funnel.updated_date.slice(0, 10)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_223855ea_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      }, [_ctx.statusById[funnel.idfunnel].first_date ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].first_date) + " – " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].last_date), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_NoArchivedData')), 1)), _ctx.statusById[funnel.idfunnel].is_queued ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusById[funnel.idfunnel].queued_days ? _ctx.translate('RebelFunnels_DaysWaiting', _ctx.statusById[funnel.idfunnel].queued_days) : _ctx.translate('RebelFunnels_WaitingToBeArchived')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", FunnelsListvue_type_template_id_7925ab6c_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(funnel.updated_date.slice(0, 10)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FunnelsListvue_type_template_id_7925ab6c_hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        type: "button",
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["table-action", funnel.paused ? 'icon-play' : 'icon-pause']),
+        title: _ctx.translate(funnel.paused ? 'RebelFunnels_Resume' : 'RebelFunnels_Pause'),
+        disabled: !_ctx.canManage(funnel),
+        onClick: $event => _ctx.setPaused(funnel, !funnel.paused)
+      }, null, 10, FunnelsListvue_type_template_id_7925ab6c_hoisted_19), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
         type: "button",
         class: "table-action icon-edit",
         title: _ctx.translate('General_Edit'),
         disabled: !_ctx.canManage(funnel),
         onClick: $event => _ctx.$emit('edit', funnel)
-      }, null, 8, FunnelsListvue_type_template_id_223855ea_hoisted_18), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_20), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        type: "button",
+        class: "table-action icon-content-copy",
+        title: _ctx.translate('RebelFunnels_Duplicate'),
+        onClick: $event => _ctx.duplicated = funnel
+      }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_21), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
         type: "button",
         class: "table-action icon-delete",
         title: _ctx.translate('General_Delete'),
         disabled: !_ctx.canManage(funnel),
         onClick: $event => _ctx.confirmDelete(funnel)
-      }, null, 8, FunnelsListvue_type_template_id_223855ea_hoisted_19)])], 40, FunnelsListvue_type_template_id_223855ea_hoisted_7);
-    }), 128))])])), [[_directive_content_table], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FunnelsListvue_type_template_id_223855ea_hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_22)])], 40, FunnelsListvue_type_template_id_7925ab6c_hoisted_7);
+    }), 128))])])), [[_directive_content_table], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]]), _ctx.duplicated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FunnelsListvue_type_template_id_7925ab6c_hoisted_23, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_FunnelDuplicateForm, {
+      key: _ctx.duplicated.idfunnel,
+      "item-name": _ctx.decode(_ctx.duplicated.name),
+      "is-busy": _ctx.isDuplicating,
+      onConfirm: _cache[2] || (_cache[2] = $event => _ctx.duplicate($event)),
+      onCancel: _cache[3] || (_cache[3] = $event => _ctx.duplicated = null)
+    }, null, 8, ["item-name", "is-busy"]))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FunnelsListvue_type_template_id_7925ab6c_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
       class: "btn",
       disabled: _ctx.isLoading,
-      onClick: _cache[2] || (_cache[2] = $event => _ctx.$emit('create', null))
-    }, [FunnelsListvue_type_template_id_223855ea_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_CreateNewFunnel')), 1)], 8, FunnelsListvue_type_template_id_223855ea_hoisted_21)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", FunnelsListvue_type_template_id_223855ea_hoisted_23, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_StartFromExample')) + " ", 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.examples, example => {
+      onClick: _cache[4] || (_cache[4] = $event => _ctx.$emit('create', null))
+    }, [FunnelsListvue_type_template_id_7925ab6c_hoisted_26, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_CreateNewFunnel')), 1)], 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_25)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", FunnelsListvue_type_template_id_7925ab6c_hoisted_27, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_StartFromExample')) + " ", 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.examples, example => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
         type: "button",
         class: "funnelsList__example",
         key: example.name,
         onClick: $event => _ctx.$emit('create', example)
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(example.name), 9, FunnelsListvue_type_template_id_223855ea_hoisted_24);
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(example.name), 9, FunnelsListvue_type_template_id_7925ab6c_hoisted_28);
     }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" · "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       href: _ctx.documentationUrl
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Documentation')), 9, FunnelsListvue_type_template_id_223855ea_hoisted_25)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]])]),
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_Documentation')), 9, FunnelsListvue_type_template_id_7925ab6c_hoisted_29)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]])]),
     _: 1
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FunnelsListvue_type_template_id_223855ea_hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_DeleteFunnelConfirm', _ctx.funnelToDeleteName)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", FunnelsListvue_type_template_id_7925ab6c_hoisted_30, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('RebelFunnels_DeleteFunnelConfirm', _ctx.funnelToDeleteName)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "yes",
     type: "button",
     value: _ctx.translate('General_Yes')
-  }, null, 8, FunnelsListvue_type_template_id_223855ea_hoisted_27), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_31), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "no",
     type: "button",
     value: _ctx.translate('General_No')
-  }, null, 8, FunnelsListvue_type_template_id_223855ea_hoisted_28)], 512)]);
+  }, null, 8, FunnelsListvue_type_template_id_7925ab6c_hoisted_32)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.vue?vue&type=template&id=223855ea
+// CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.vue?vue&type=template&id=7925ab6c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.vue?vue&type=script&lang=ts
+
 
 
 /* harmony default export */ var FunnelsListvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -1140,6 +1278,7 @@ function FunnelsListvue_type_template_id_223855ea_render(_ctx, _cache, $props, $
   emits: ['create', 'edit', 'changed'],
   components: {
     ContentBlock: external_CoreHome_["ContentBlock"],
+    FunnelDuplicateForm: FunnelDuplicateForm,
     MatomoLoader: external_CoreHome_["MatomoLoader"]
   },
   directives: {
@@ -1149,6 +1288,8 @@ function FunnelsListvue_type_template_id_223855ea_render(_ctx, _cache, $props, $
     return {
       funnelToDeleteName: '',
       dragged: null,
+      duplicated: null,
+      isDuplicating: false,
       search: ''
     };
   },
@@ -1241,6 +1382,38 @@ function FunnelsListvue_type_template_id_223855ea_render(_ctx, _cache, $props, $
         this.$emit('changed');
       });
     },
+    setPaused(funnel, paused) {
+      external_CoreHome_["AjaxHelper"].post({
+        method: paused ? 'RebelFunnels.pauseFunnel' : 'RebelFunnels.resumeFunnel',
+        idFunnel: funnel.idfunnel
+      }).then(() => {
+        this.$emit('changed');
+      });
+    },
+    duplicate(site) {
+      const funnel = this.duplicated;
+      if (!funnel) {
+        return;
+      }
+      this.isDuplicating = true;
+      external_CoreHome_["AjaxHelper"].post({
+        method: 'RebelFunnels.duplicateFunnel',
+        idFunnel: funnel.idfunnel
+      }, {
+        idDestinationSite: site.id
+      }).then(() => {
+        external_CoreHome_["NotificationsStore"].show({
+          id: 'rebelFunnelsDuplicated',
+          message: Object(external_CoreHome_["translate"])('RebelFunnels_DuplicatedTo', this.decode(funnel.name), site.name),
+          context: 'success',
+          type: 'transient'
+        });
+        this.duplicated = null;
+        this.$emit('changed');
+      }).finally(() => {
+        this.isDuplicating = false;
+      });
+    },
     confirmDelete(funnel) {
       this.funnelToDeleteName = this.decode(funnel.name);
       external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirm, {
@@ -1262,7 +1435,7 @@ function FunnelsListvue_type_template_id_223855ea_render(_ctx, _cache, $props, $
 
 
 
-FunnelsListvue_type_script_lang_ts.render = FunnelsListvue_type_template_id_223855ea_render
+FunnelsListvue_type_script_lang_ts.render = FunnelsListvue_type_template_id_7925ab6c_render
 
 /* harmony default export */ var FunnelsList = (FunnelsListvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/RebelFunnels/vue/src/ManageFunnels/ManageFunnels.vue?vue&type=template&id=92fd4b3c
@@ -1373,6 +1546,7 @@ ManageFunnelsvue_type_script_lang_ts.render = ManageFunnelsvue_type_template_id_
 
 /* harmony default export */ var ManageFunnels = (ManageFunnelsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/RebelFunnels/vue/src/index.ts
+
 
 
 

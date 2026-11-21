@@ -126,6 +126,28 @@ describe('RebelFunnels', function () {
         expect(goal).to.equal('Thanks page');
     });
 
+    it('should pause and resume a funnel', async function () {
+        await openManagePage();
+        await clickInRow('Checkout', '.icon-pause');
+        await page.waitForNetworkIdle();
+        const paused = await page.evaluate(() => $('.funnelsList tr:contains(Checkout) .funnelsList__chip:contains(Paused)').length);
+
+        await clickInRow('Checkout', '.icon-play');
+        await page.waitForNetworkIdle();
+        const stillPaused = await page.evaluate(() => $('.funnelsList tr:contains(Checkout) .funnelsList__chip:contains(Paused)').length);
+
+        expect([paused, stillPaused]).to.deep.equal([1, 0]);
+    });
+
+    it('should duplicate a funnel within the website', async function () {
+        await clickInRow('To the goal', '.icon-content-copy');
+        await page.waitForSelector('.funnelDuplicateForm');
+        await page.click('.funnelDuplicateForm__confirm');
+        await page.waitForNetworkIdle();
+
+        expect(await funnelNames()).to.include('To the goal (copy)');
+    });
+
     it('should open the editor filled in from an example', async function () {
         await openManagePage();
         await (await page.jQuery('.funnelsList__example:contains(How deep visits go)')).click();
@@ -151,6 +173,6 @@ describe('RebelFunnels', function () {
         await (await page.jQuery('.modal.open .modal-footer a:contains(Yes)', { waitFor: true })).click();
         await page.waitForNetworkIdle();
 
-        expect(await funnelNames()).to.deep.equal(['To the goal']);
+        expect(await funnelNames()).to.deep.equal(['To the goal', 'To the goal (copy)']);
     });
 });

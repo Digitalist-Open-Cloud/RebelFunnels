@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased]
+## [0.3.0] - 2026-11-21
+
+### Added
+
+- A funnel can be paused: it keeps its data and gets nothing new until it is resumed.
+- A funnel can be duplicated, within its website or to another one.
+- When periods or segments are compared, each of them has a bar of its own below every step of the funnel.
 
 ### Fixed
 

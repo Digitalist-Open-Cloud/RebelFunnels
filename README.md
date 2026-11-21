@@ -35,7 +35,8 @@ Each funnel has a page under Funnels with:
   website. It can be switched to a table and exported.
 - the conversion rate over time.
 
-Both work with segments and date ranges, and can be added to dashboards.
+Both work with segments and date ranges, and can be added to dashboards. When periods or
+segments are compared, each of them gets a bar of its own below every step.
 
 ## Install
 
@@ -57,6 +58,10 @@ Administration > System > Funnels documentation describes how funnels count.
 
 Changing the rules, the order rule of a step or the segment of a funnel builds its data again.
 Changing names does not.
+
+A funnel can be paused in the list: it keeps its data but archives nothing new until it is
+resumed. It can also be duplicated, within its website or to another one. A funnel with a goal
+as a step can only be copied to a website that has a goal with the same ID.
 
 ## Archiving single funnels
 

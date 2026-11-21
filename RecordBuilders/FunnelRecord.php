@@ -38,7 +38,8 @@ class FunnelRecord extends RecordBuilder
     {
         $idSite = $this->funnel['idsite'];
 
-        return $idSite === 0 || in_array($idSite, $archiveProcessor->getParams()->getIdSites());
+        return !$this->funnel['paused']
+            && ($idSite === 0 || in_array($idSite, $archiveProcessor->getParams()->getIdSites()));
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array

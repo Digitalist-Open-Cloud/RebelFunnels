@@ -65,6 +65,9 @@
                 :href="funnelUrl(funnel)"
                 :title="translate('RebelFunnels_ViewFunnel')"
               >{{ decode(funnel.name) }}</a>
+              <span class="funnelsList__chip" v-if="funnel.paused">
+                {{ translate('RebelFunnels_Paused') }}
+              </span>
               <span class="funnelsList__description" v-if="funnel.description">
                 {{ decode(funnel.description) }}
               </span>
@@ -104,10 +107,24 @@
             <td class="funnelsList__actions">
               <button
                 type="button"
+                class="table-action"
+                :class="funnel.paused ? 'icon-play' : 'icon-pause'"
+                :title="translate(funnel.paused ? 'RebelFunnels_Resume' : 'RebelFunnels_Pause')"
+                :disabled="!canManage(funnel)"
+                @click="setPaused(funnel, !funnel.paused)"
+              />
+              <button
+                type="button"
                 class="table-action icon-edit"
                 :title="translate('General_Edit')"
                 :disabled="!canManage(funnel)"
                 @click="$emit('edit', funnel)"
+              />
+              <button
+                type="button"
+                class="table-action icon-content-copy"
+                :title="translate('RebelFunnels_Duplicate')"
+                @click="duplicated = funnel"
               />
               <button
                 type="button"
@@ -120,6 +137,16 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="funnelsList__duplicate" v-if="duplicated">
+        <FunnelDuplicateForm
+          :key="duplicated.idfunnel"
+          :item-name="decode(duplicated.name)"
+          :is-busy="isDuplicating"
+          @confirm="duplicate($event)"
+          @cancel="duplicated = null"
+        />
+      </div>
 
       <div class="tableActionBar">
         <button type="button" class="btn" :disabled="isLoading" @click="$emit('create', null)">
@@ -158,8 +185,10 @@ import {
   Matomo,
   MatomoLoader,
   MatomoUrl,
+  NotificationsStore,
   translate,
 } from 'CoreHome';
+import FunnelDuplicateForm, { DestinationSite } from '../FunnelDuplicateForm/FunnelDuplicateForm.vue';
 import { ArchiveStatus, Funnel, FunnelTemplate } from '../types';
 
 export default defineComponent({
@@ -177,6 +206,7 @@ export default defineComponent({
   emits: ['create', 'edit', 'changed'],
   components: {
     ContentBlock,
+    FunnelDuplicateForm,
     MatomoLoader,
   },
   directives: {
@@ -186,6 +216,8 @@ export default defineComponent({
     return {
       funnelToDeleteName: '',
       dragged: null as Funnel|null,
+      duplicated: null as Funnel|null,
+      isDuplicating: false,
       search: '',
     };
   },
@@ -275,6 +307,39 @@ export default defineComponent({
         idFunnels: ordered.map((other) => other.idfunnel),
       }).then(() => {
         this.$emit('changed');
+      });
+    },
+    setPaused(funnel: Funnel, paused: boolean) {
+      AjaxHelper.post({
+        method: paused ? 'RebelFunnels.pauseFunnel' : 'RebelFunnels.resumeFunnel',
+        idFunnel: funnel.idfunnel,
+      }).then(() => {
+        this.$emit('changed');
+      });
+    },
+    duplicate(site: DestinationSite) {
+      const funnel = this.duplicated;
+      if (!funnel) {
+        return;
+      }
+
+      this.isDuplicating = true;
+      AjaxHelper.post({
+        method: 'RebelFunnels.duplicateFunnel',
+        idFunnel: funnel.idfunnel,
+      }, {
+        idDestinationSite: site.id,
+      }).then(() => {
+        NotificationsStore.show({
+          id: 'rebelFunnelsDuplicated',
+          message: translate('RebelFunnels_DuplicatedTo', this.decode(funnel.name), site.name),
+          context: 'success',
+          type: 'transient',
+        });
+        this.duplicated = null;
+        this.$emit('changed');
+      }).finally(() => {
+        this.isDuplicating = false;
       });
     },
     confirmDelete(funnel: Funnel) {

@@ -86,6 +86,52 @@ class FunnelManager
     }
 
     /**
+     * A paused funnel keeps its archived data, but gets no new data until it is resumed.
+     */
+    public function pauseFunnel(array $funnel): void
+    {
+        $this->model->setPaused($funnel['idfunnel'], true);
+        $this->archiveInvalidator->removeInvalidationsSafely(
+            $funnel['idsite'] === 0 ? 'all' : [$funnel['idsite']],
+            self::PLUGIN,
+            Archiver::getRecordName($funnel)
+        );
+    }
+
+    /**
+     * Has the funnel archived again, including the time it was paused.
+     */
+    public function resumeFunnel(array $funnel): void
+    {
+        $this->model->setPaused($funnel['idfunnel'], false);
+        $this->scheduleArchiving($this->model->getFunnel($funnel['idfunnel']));
+    }
+
+    /**
+     * Copies the funnel to the website. Within its own website the copy gets "(copy)" in its
+     * name.
+     *
+     * @return int the ID of the new funnel
+     * @throws Exception if the funnel uses a goal the website does not have
+     */
+    public function duplicateFunnel(array $funnel, int $idDestinationSite): int
+    {
+        $name = $funnel['name'];
+        if ($funnel['idsite'] === $idDestinationSite) {
+            // Names are limited in length, so a long name is shortened to fit "(copy)".
+            $suffixLength = mb_strlen(Piwik::translate('RebelFunnels_CopyOf', ''));
+            $name = Piwik::translate('RebelFunnels_CopyOf', mb_substr($name, 0, self::MAX_NAME_LENGTH - $suffixLength));
+        }
+
+        return $this->addFunnel($idDestinationSite, [
+            'name' => $name,
+            'description' => $funnel['description'],
+            'steps' => $funnel['steps'],
+            'segment_filter' => $funnel['segment_filter'],
+        ], false);
+    }
+
+    /**
      * Sets the order of the funnels of the site, which is also the order of their pages.
      *
      * @param int[] $idFunnels the IDs of all funnels of the site in their new order
@@ -262,6 +308,11 @@ class FunnelManager
      */
     private function scheduleArchiving(array $funnel): void
     {
+        if ($funnel['paused']) {
+            // Resuming the funnel schedules it.
+            return;
+        }
+
         $idSites = $funnel['idsite'] === 0 ? 'all' : [$funnel['idsite']];
 
         $this->archiveInvalidator->scheduleReArchiving($idSites, self::PLUGIN, Archiver::getRecordName($funnel));

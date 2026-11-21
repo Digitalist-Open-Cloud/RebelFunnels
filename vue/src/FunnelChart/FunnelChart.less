@@ -72,6 +72,46 @@
     background: @theme-color-brand;
   }
 
+  // One colour per period or segment the funnel is compared with.
+  .funnelChart__series0 { background: #1e93d1; }
+  .funnelChart__series1 { background: #ff9600; }
+  .funnelChart__series2 { background: #7b3294; }
+  .funnelChart__series3 { background: #5f6b76; }
+
+  .funnelChart__dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+    border-radius: 50%;
+  }
+
+  .funnelChart__compare {
+    margin: 6px 0 0 30px;
+    font-size: 12px;
+  }
+
+  .funnelChart__compareHead {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .funnelChart__compareLabel {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: @theme-color-text-light;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // The same width as the bar of the step, so that the two can be compared by eye.
+  .funnelChart__track--compare {
+    height: 8px;
+    margin: 2px 0 0;
+  }
+
   .funnelChart__revenue {
     margin: 6px 0 0 30px;
     font-size: 12px;

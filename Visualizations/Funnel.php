@@ -14,7 +14,7 @@ use Piwik\Site;
 
 /**
  * Shows the steps of a funnel as bars, with how many visits went on and how many left between
- * them, and the conversion rate of each period and segment it is compared with.
+ * them. Each period and segment it is compared with gets a bar of its own below every step.
  */
 class Funnel extends Visualization
 {
@@ -58,12 +58,10 @@ class Funnel extends Visualization
                     continue;
                 }
 
-                $steps = $this->getSteps($comparePeriod, $compareDate, $segment);
                 $periodLabel = PeriodFactory::build($comparePeriod, $compareDate)->getLocalizedShortString();
                 $comparisons[] = [
                     'label' => implode(', ', array_filter([$segmentName, $segment === null || $index > 0 ? $periodLabel : ''])),
-                    'funnel_entries' => $steps ? $steps[0]['nb_visits'] : 0,
-                    'funnel_conversions' => $steps ? end($steps)['nb_visits'] : 0,
+                    'steps' => $this->getSteps($comparePeriod, $compareDate, $segment),
                 ];
             }
         }

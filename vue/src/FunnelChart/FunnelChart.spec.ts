@@ -63,6 +63,22 @@ describe('RebelFunnels/FunnelChart', () => {
       .toEqual(['RebelFunnels_RevenueOf($30)']);
   });
 
+  it('draws a bar per step for each period or segment it is compared with', () => {
+    const comparison = {
+      label: 'Last month',
+      steps: [{ ...steps[0], nb_visits: 10 }, { ...steps[1], nb_visits: 5 }],
+    };
+    const wrapper = mountChart({ comparisons: [comparison] });
+
+    const rows = wrapper.findAll('.funnelChart__compare');
+    expect(rows).toHaveLength(2);
+    expect(rows.map((row) => row.find('.funnelChart__bar').attributes('style')))
+      .toEqual(['width: 100%;', 'width: 50%;']);
+    expect(rows[1].text()).toContain('Last month');
+    expect(rows[1].find('.funnelChart__visits').text()).toBe('5');
+    expect(wrapper.find('.funnelChart__comparison').text()).toContain('50%');
+  });
+
   it('says that there is no data when no visit entered', () => {
     const wrapper = mountChart({ steps: steps.map((step) => ({ ...step, nb_visits: 0 })) });
 

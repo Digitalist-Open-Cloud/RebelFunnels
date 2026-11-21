@@ -10,6 +10,7 @@ use Piwik\DbHelper;
 class Model
 {
     public const TABLE = 'rebel_funnels';
+    public const PAUSED_COLUMN = 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0';
 
     private string $table;
 
@@ -28,6 +29,7 @@ class Model
             `steps` TEXT NOT NULL,
             `segment_filter` TEXT NOT NULL,
             `revision` INT UNSIGNED NOT NULL DEFAULT 1,
+            `paused` " . self::PAUSED_COLUMN . ",
             `position` INT UNSIGNED NOT NULL DEFAULT 0,
             `created_date` DATETIME NOT NULL,
             `updated_date` DATETIME NOT NULL,
@@ -70,6 +72,14 @@ class Model
             "UPDATE {$this->table} SET `name` = ?, `description` = ?, `steps` = ?, `segment_filter` = ?, `updated_date` = ?"
             . ($newRevision ? ', `revision` = `revision` + 1' : '') . ' WHERE `idfunnel` = ?',
             [$funnel['name'], $funnel['description'], json_encode($funnel['steps']), $funnel['segment_filter'], Date::now()->getDatetime(), $idFunnel]
+        );
+    }
+
+    public function setPaused(int $idFunnel, bool $paused): void
+    {
+        Db::query(
+            "UPDATE {$this->table} SET `paused` = ?, `updated_date` = ? WHERE `idfunnel` = ?",
+            [(int) $paused, Date::now()->getDatetime(), $idFunnel]
         );
     }
 
@@ -134,6 +144,7 @@ class Model
         $row['idsite'] = (int) $row['idsite'];
         $row['revision'] = (int) $row['revision'];
         $row['position'] = (int) $row['position'];
+        $row['paused'] = (bool) $row['paused'];
         $row['steps'] = json_decode($row['steps'], true);
 
         return $row;

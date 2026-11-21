@@ -9,6 +9,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Request;
 
 /**
  * The revenue of the goal conversions and orders that reached a step, in the currency of the
@@ -45,12 +46,14 @@ class Revenue extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        return $formatter->getPrettyMoney($value, $this->idSite);
+        return $this->idSite > 0 ? $formatter->getPrettyMoney($value, $this->idSite) : $value;
     }
 
     public function beforeCompute($report, DataTable $table)
     {
-        $this->idSite = (int) DataTableFactory::getSiteIdFromMetadata($table);
+        // A table of a period or segment that is compared with does not name its website.
+        $this->idSite = (int) DataTableFactory::getSiteIdFromMetadata($table)
+            ?: Request::fromRequest()->getIntegerParameter('idSite', 0);
 
         return true;
     }

@@ -49,6 +49,11 @@ class Archive extends ConsoleCommand
         $status = self::SUCCESS;
 
         foreach ($this->getFunnels() as $funnel) {
+            if ($funnel['paused']) {
+                $this->getOutput()->writeln(sprintf('<comment>Funnel %d "%s" is paused and is not archived.</comment>', $funnel['idfunnel'], $funnel['name']));
+                continue;
+            }
+
             $record = self::PLUGIN . '.' . Archiver::getRecordName($funnel);
             $idSites = $this->getIdSites($funnel);
 

@@ -191,6 +191,14 @@ class ArchivingTest extends IntegrationTestCase
         $this->assertSame([false, false], $stepRows->getColumn('revenue'), 'only there to calculate the revenue');
     }
 
+    public function testAPausedFunnelGetsNoData()
+    {
+        $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::CHECKOUT);
+        $this->api->pauseFunnel($this->idSite, $idFunnel);
+
+        $this->assertSame([0, 0, 0, 0], $this->getSteps($idFunnel)->getColumn('nb_visits'));
+    }
+
     public function testSummaryHasEntriesConversionsAndTheirRate()
     {
         $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::CHECKOUT);

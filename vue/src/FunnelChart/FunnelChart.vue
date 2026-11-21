@@ -21,12 +21,13 @@
         v-for="(comparison, index) in comparisons"
         :key="index"
       >
+        <span class="funnelChart__dot" :class="`funnelChart__series${index % 4}`" />
         {{ comparison.label }}:
-        <strong>{{ percent(comparison.funnel_conversions, comparison.funnel_entries) }}</strong>
+        <strong>{{ percent(lastVisits(comparison), firstVisits(comparison)) }}</strong>
         {{ translate(
           'RebelFunnels_ConversionsOfEntries',
-          number(comparison.funnel_conversions),
-          number(comparison.funnel_entries),
+          number(lastVisits(comparison)),
+          number(firstVisits(comparison)),
         ) }}
       </div>
 
@@ -43,6 +44,26 @@
               class="funnelChart__bar"
               :style="{ width: `${(step.nb_visits / entries) * 100}%` }"
             />
+          </div>
+          <div
+            class="funnelChart__compare"
+            v-for="(comparison, comparisonIndex) in comparisons"
+            :key="comparisonIndex"
+          >
+            <div class="funnelChart__compareHead">
+              <span class="funnelChart__compareLabel">{{ comparison.label }}</span>
+              <span class="funnelChart__visits">{{ number(visitsOf(comparison, index)) }}</span>
+              <span class="funnelChart__share">
+                {{ percent(visitsOf(comparison, index), firstVisits(comparison)) }}
+              </span>
+            </div>
+            <div class="funnelChart__track funnelChart__track--compare">
+              <div
+                class="funnelChart__bar"
+                :class="`funnelChart__series${comparisonIndex % 4}`"
+                :style="{ width: `${shareOf(comparison, index)}%` }"
+              />
+            </div>
           </div>
           <div class="funnelChart__revenue" v-if="step.funnel_revenue">
             {{ translate('RebelFunnels_RevenueOf', money(step.funnel_revenue)) }}
@@ -156,6 +177,20 @@ export default defineComponent({
           this.nextActions = actions;
         }
       });
+    },
+    firstVisits(comparison: Comparison): number {
+      return comparison.steps.length ? comparison.steps[0].nb_visits : 0;
+    },
+    lastVisits(comparison: Comparison): number {
+      return this.visitsOf(comparison, comparison.steps.length - 1);
+    },
+    visitsOf(comparison: Comparison, index: number): number {
+      return comparison.steps[index] ? comparison.steps[index].nb_visits : 0;
+    },
+    // The width of the bar of a step: its share of the visits that entered that funnel.
+    shareOf(comparison: Comparison, index: number): number {
+      const entries = this.firstVisits(comparison);
+      return entries ? (this.visitsOf(comparison, index) / entries) * 100 : 0;
     },
     money(value: number): string {
       return NumberFormatter.formatCurrency(value, this.currency, 2, 0);

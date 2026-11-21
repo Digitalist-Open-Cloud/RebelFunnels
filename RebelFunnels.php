@@ -94,6 +94,7 @@ class RebelFunnels extends Plugin
     {
         $stylesheets[] = 'plugins/RebelFunnels/stylesheets/menuIcon.less';
         $stylesheets[] = 'plugins/RebelFunnels/vue/src/FunnelChart/FunnelChart.less';
+        $stylesheets[] = 'plugins/RebelFunnels/vue/src/FunnelDuplicateForm/FunnelDuplicateForm.less';
         $stylesheets[] = 'plugins/RebelFunnels/vue/src/FunnelEditor/FunnelEditor.less';
         $stylesheets[] = 'plugins/RebelFunnels/vue/src/FunnelsList/FunnelsList.less';
     }
@@ -133,6 +134,12 @@ class RebelFunnels extends Plugin
         $translationKeys[] = 'RebelFunnels_CreateNewFunnel';
         $translationKeys[] = 'RebelFunnels_DaysWaiting';
         $translationKeys[] = 'RebelFunnels_DeleteFunnelConfirm';
+        $translationKeys[] = 'RebelFunnels_DuplicatedTo';
+        $translationKeys[] = 'RebelFunnels_DuplicateTo';
+        $translationKeys[] = 'RebelFunnels_Duplicate';
+        $translationKeys[] = 'RebelFunnels_Resume';
+        $translationKeys[] = 'RebelFunnels_Paused';
+        $translationKeys[] = 'RebelFunnels_Pause';
         $translationKeys[] = 'RebelFunnels_Documentation';
         $translationKeys[] = 'RebelFunnels_ExampleThirdPage';
         $translationKeys[] = 'RebelFunnels_ExampleSecondPage';

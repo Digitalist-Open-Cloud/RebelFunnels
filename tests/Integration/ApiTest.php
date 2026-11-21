@@ -178,6 +178,69 @@ class ApiTest extends IntegrationTestCase
         $this->api->addFunnel($this->idSite, 'Signup everywhere', $steps, '', '', true);
     }
 
+    public function testAPausedFunnelIsNotArchivedUntilItIsResumed()
+    {
+        $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::STEPS);
+
+        $this->api->pauseFunnel($this->idSite, $idFunnel);
+        $this->assertTrue($this->api->getFunnel($this->idSite, $idFunnel)['paused']);
+        $this->assertSame([], $this->getScheduledRecords());
+
+        // A paused funnel is not built again when it changes either.
+        $steps = self::STEPS;
+        $steps[1]['rules'][0]['value'] = 'Thanks';
+        $this->api->updateFunnel($this->idSite, $idFunnel, 'Checkout', $steps);
+        $this->assertSame([], $this->getScheduledRecords());
+
+        $this->api->resumeFunnel($this->idSite, $idFunnel);
+        $this->assertFalse($this->api->getFunnel($this->idSite, $idFunnel)['paused']);
+        $this->assertSame(["RebelFunnels_{$idFunnel}_2"], $this->getScheduledRecords());
+    }
+
+    public function testAFunnelIsDuplicatedWithinItsWebsiteOrToAnother()
+    {
+        $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::STEPS, 'From cart to thanks', 'visitCount>1');
+
+        $idCopy = $this->api->duplicateFunnel($this->idSite, $idFunnel);
+        $idElsewhere = $this->api->duplicateFunnel($this->idSite, $idFunnel, $this->idOtherSite);
+
+        $original = $this->api->getFunnel($this->idSite, $idFunnel);
+        $copy = $this->api->getFunnel($this->idSite, $idCopy);
+        $elsewhere = $this->api->getFunnel($this->idOtherSite, $idElsewhere);
+        $this->assertSame('Checkout (copy)', $copy['name']);
+        $this->assertSame('Checkout', $elsewhere['name']);
+        $this->assertSame($this->idOtherSite, $elsewhere['idsite']);
+        foreach ([$copy, $elsewhere] as $funnel) {
+            $this->assertSame(
+                [$original['description'], $original['steps'], $original['segment_filter']],
+                [$funnel['description'], $funnel['steps'], $funnel['segment_filter']]
+            );
+        }
+        $this->assertContains("RebelFunnels_{$idCopy}_1", $this->getScheduledRecords());
+    }
+
+    public function testAFunnelWithAGoalCannotBeDuplicatedToAWebsiteWithoutThatGoal()
+    {
+        $idGoal = (string) GoalsApi::getInstance()->addGoal($this->idSite, 'Signup', 'url', '/signup', 'contains');
+        $steps = [self::STEPS[0], ['name' => 'Signed up', 'rules' => [['type' => 'goal', 'value' => $idGoal]]]];
+        $idFunnel = $this->api->addFunnel($this->idSite, 'Signup', $steps);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Use one of: order, cart.');
+        $this->api->duplicateFunnel($this->idSite, $idFunnel, $this->idOtherSite);
+    }
+
+    public function testDuplicatingNeedsWriteAccessToTheWebsiteTheCopyGoesTo()
+    {
+        $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::STEPS);
+        FakeAccess::clearAccess(false, [], [$this->idSite], 'writer', [$this->idSite]);
+
+        $this->assertGreaterThan($idFunnel, $this->api->duplicateFunnel($this->idSite, $idFunnel));
+
+        $this->expectException(NoAccessException::class);
+        $this->api->duplicateFunnel($this->idSite, $idFunnel, $this->idOtherSite);
+    }
+
     public function testViewUserCanReadButNotChangeFunnels()
     {
         $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::STEPS);
