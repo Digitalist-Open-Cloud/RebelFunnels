@@ -107,6 +107,12 @@
   .funnelEditor__direct {
     display: block;
     margin: 4px 0 0 44px;
+
+    // override: core styles the text of a checkbox like a form title
+    span {
+      color: @theme-color-text;
+      font-size: 14px;
+    }
   }
 
   .funnelEditor__segment {
