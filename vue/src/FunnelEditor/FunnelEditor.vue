@@ -227,7 +227,7 @@
               {{ translate('General_LoadingData') }}
             </span>
           </p>
-          <FunnelChart v-else :steps="preview" />
+          <FunnelChart v-else :steps="preview" :currency="currency" />
         </div>
       </form>
     </ContentBlock>
@@ -250,6 +250,7 @@ import { SegmentGenerator } from 'SegmentEditor';
 import FunnelChart from '../FunnelChart/FunnelChart.vue';
 import {
   Funnel,
+  FunnelTemplate,
   Rule,
   Step,
   StepResult,
@@ -303,6 +304,15 @@ export default defineComponent({
       type: Object as PropType<Funnel|null>,
       default: null,
     },
+    // A funnel that is not saved, to start a new one from.
+    template: {
+      type: Object as PropType<FunnelTemplate|null>,
+      default: null,
+    },
+    currency: {
+      type: String,
+      default: '',
+    },
     rearchiveMonths: {
       type: Number,
       default: 0,
@@ -323,13 +333,14 @@ export default defineComponent({
     SegmentGenerator,
   },
   data() {
-    const { funnel } = this;
+    const { funnel, template } = this;
+    const source = funnel || template;
 
     return {
       form: {
-        name: funnel ? Matomo.helper.htmlDecode(funnel.name) : '',
+        name: source ? Matomo.helper.htmlDecode(source.name) : '',
         description: funnel ? Matomo.helper.htmlDecode(funnel.description) : '',
-        steps: funnel ? funnel.steps.map((step) => newStep(step)) : [newStep(), newStep()],
+        steps: source ? source.steps.map((step) => newStep(step)) : [newStep(), newStep()],
         segmentFilter: funnel ? funnel.segment_filter : '',
         allWebsites: funnel ? funnel.idsite === 0 : false,
       },

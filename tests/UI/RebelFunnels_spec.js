@@ -126,6 +126,25 @@ describe('RebelFunnels', function () {
         expect(goal).to.equal('Thanks page');
     });
 
+    it('should open the editor filled in from an example', async function () {
+        await openManagePage();
+        await (await page.jQuery('.funnelsList__example:contains(How deep visits go)')).click();
+        await page.waitForSelector('.funnelEditor');
+
+        const steps = await page.evaluate(() => [...document.querySelectorAll('.funnelEditor__stepName')]
+            .map((input) => input.value));
+        await page.click('.funnelEditor__cancel');
+        expect(steps).to.deep.equal(['A page', 'A second page', 'A third page']);
+    });
+
+    it('should show the documentation with the limit as it is set', async function () {
+        await page.goto(`?module=RebelFunnels&action=documentation&${params}`);
+        await page.waitForSelector('.rebelFunnelsDocumentation');
+
+        const text = await page.evaluate(() => document.querySelector('.rebelFunnelsDocumentation').textContent);
+        expect(text).to.contain('A funnel can have at most 10 steps.');
+    });
+
     it('should delete a funnel after confirming', async function () {
         await openManagePage();
         await clickInRow('Checkout', '.icon-delete');

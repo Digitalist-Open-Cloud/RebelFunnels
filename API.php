@@ -151,7 +151,8 @@ class API extends \Piwik\Plugin\API
      *                                     that left at the step did next
      * @return DataTable|DataTable\Map one row per step: nb_visits (visits that reached it),
      *         funnel_step_rate (their share of the visits that entered the funnel),
-     *         funnel_avg_step_time (seconds from the step before) and, except for the last step,
+     *         funnel_avg_step_time (seconds from the step before), funnel_revenue (the revenue
+     *         of the goal conversions and orders that reached the step) and, except for the last step,
      *         funnel_proceeded (visits that went on to the next step), funnel_exits (visits that
      *         left) and funnel_dropoff_rate. With $idSubtable: one row per next action, with
      *         nb_visits.
@@ -222,7 +223,8 @@ class API extends \Piwik\Plugin\API
      * Returns how many visits entered a funnel and how many reached its last step.
      *
      * @param string|false $segment
-     * @return DataTable|DataTable\Map funnel_entries, funnel_conversions and funnel_conversion_rate
+     * @return DataTable|DataTable\Map funnel_entries, funnel_conversions, funnel_conversion_rate and
+     *         funnel_revenue (the revenue of the conversions that reached the last step)
      */
     public function getSummary(int $idSite, string $period, string $date, int $idFunnel, $segment = false): DataTableInterface
     {
@@ -239,7 +241,8 @@ class API extends \Piwik\Plugin\API
      * the funnel editor.
      *
      * @param array[] $steps
-     * @return array[] per step: name, nb_visits, funnel_proceeded, funnel_exits and funnel_avg_step_time
+     * @return array[] per step: name, nb_visits, funnel_proceeded, funnel_exits, funnel_avg_step_time
+     *                 and funnel_revenue
      */
     public function previewFunnel(int $idSite, array $steps, string $segmentFilter = ''): array
     {
@@ -262,6 +265,7 @@ class API extends \Piwik\Plugin\API
                 'funnel_proceeded' => $row['funnel_proceeded'] ?? null,
                 'funnel_exits' => $row['funnel_exits'] ?? null,
                 'funnel_avg_step_time' => (int) Piwik::getQuotientSafe($row['sum_time'], $row['nb_visits'], 0),
+                'funnel_revenue' => $row['revenue'],
             ];
         }
 
@@ -301,6 +305,7 @@ class API extends \Piwik\Plugin\API
                 'nb_visits' => $visits,
                 'funnel_entries' => $entries,
                 'sum_time' => (int) ($counts[$index]['sum_time'] ?? 0),
+                'revenue' => (float) ($counts[$index]['revenue'] ?? 0),
             ];
 
             if (isset($steps[$index + 1])) {
@@ -339,6 +344,7 @@ class API extends \Piwik\Plugin\API
         $simple->addRowsFromArray([
             'funnel_entries' => $first ? (int) $first->getColumn('nb_visits') : 0,
             'funnel_conversions' => $last ? (int) $last->getColumn('nb_visits') : 0,
+            'revenue' => $last ? (float) $last->getColumn('revenue') : 0.0,
         ]);
 
         return $simple;

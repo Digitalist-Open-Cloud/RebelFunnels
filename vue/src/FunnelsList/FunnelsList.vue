@@ -122,10 +122,23 @@
       </table>
 
       <div class="tableActionBar">
-        <button type="button" class="btn" :disabled="isLoading" @click="$emit('create')">
+        <button type="button" class="btn" :disabled="isLoading" @click="$emit('create', null)">
           <span class="icon-add" /> {{ translate('RebelFunnels_CreateNewFunnel') }}
         </button>
       </div>
+
+      <p class="funnelsList__examples" v-show="!isLoading">
+        {{ translate('RebelFunnels_StartFromExample') }}
+        <button
+          type="button"
+          class="funnelsList__example"
+          v-for="example in examples"
+          :key="example.name"
+          @click="$emit('create', example)"
+        >{{ example.name }}</button>
+        ·
+        <a :href="documentationUrl">{{ translate('RebelFunnels_Documentation') }}</a>
+      </p>
     </ContentBlock>
 
     <div class="ui-confirm" ref="confirm">
@@ -145,8 +158,9 @@ import {
   Matomo,
   MatomoLoader,
   MatomoUrl,
+  translate,
 } from 'CoreHome';
-import { ArchiveStatus, Funnel } from '../types';
+import { ArchiveStatus, Funnel, FunnelTemplate } from '../types';
 
 export default defineComponent({
   props: {
@@ -176,6 +190,39 @@ export default defineComponent({
     };
   },
   computed: {
+    documentationUrl(): string {
+      return `?${MatomoUrl.stringify({ module: 'RebelFunnels', action: 'documentation' })}`;
+    },
+    // Funnels that make sense on any website, to change into one's own.
+    examples(): FunnelTemplate[] {
+      const anyPage = { type: 'url', operator: 'regex', value: '.' };
+      const pageStep = (name: string) => ({ name: translate(name), rules: [{ ...anyPage }] });
+
+      return [
+        {
+          name: translate('RebelFunnels_ExampleDepth'),
+          steps: [
+            pageStep('RebelFunnels_ExampleFirstPage'),
+            { ...pageStep('RebelFunnels_ExampleSecondPage'), direct: false },
+            { ...pageStep('RebelFunnels_ExampleThirdPage'), direct: false },
+          ],
+        },
+        {
+          name: translate('RebelFunnels_ExampleOrder'),
+          steps: [
+            pageStep('RebelFunnels_ExampleFirstPage'),
+            {
+              name: translate('RebelFunnels_GoalCart'),
+              rules: [{ type: 'goal', operator: 'equals', value: 'cart' }],
+            },
+            {
+              name: translate('RebelFunnels_GoalOrder'),
+              rules: [{ type: 'goal', operator: 'equals', value: 'order' }],
+            },
+          ],
+        },
+      ];
+    },
     visibleFunnels(): Funnel[] {
       const words = this.search.toLowerCase().split(/\s+/).filter((word) => word);
       return this.funnels.filter((funnel) => {

@@ -75,6 +75,7 @@ class FunnelRecord extends RecordBuilder
                 'label' => (string) ($index + 1),
                 'nb_visits' => $counts['nb_visits'],
                 'sum_time' => $counts['sum_time'],
+                'revenue' => $counts['revenue'],
             ]]);
             $table->addRow($row);
 

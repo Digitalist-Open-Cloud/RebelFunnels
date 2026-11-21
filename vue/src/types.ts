@@ -38,6 +38,8 @@ export interface StepResult {
   funnel_proceeded: number|null;
   funnel_exits: number|null;
   funnel_avg_step_time: number;
+  // The revenue of the goal conversions and orders that reached the step.
+  funnel_revenue?: number;
   // Leads to what the visits that left at the step did next, when that is archived.
   idsubtable?: number|null;
 }
@@ -45,6 +47,12 @@ export interface StepResult {
 export interface NextAction {
   label: string;
   nb_visits: number;
+}
+
+// A funnel to start from in the editor.
+export interface FunnelTemplate {
+  name: string;
+  steps: Step[];
 }
 
 export interface Comparison {

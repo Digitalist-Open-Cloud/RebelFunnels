@@ -9,6 +9,7 @@ use Piwik\Plugins\RebelFunnels\Categories\ManageFunnelsSubcategory;
 use Piwik\Plugins\RebelFunnels\FunnelReport;
 use Piwik\Plugins\RebelFunnels\SystemSettings;
 use Piwik\Request;
+use Piwik\Site;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
@@ -35,9 +36,10 @@ class ManageFunnels extends Widget
         $months = (int) str_replace('last', '', (string) Config::getInstance()->General['rearchive_reports_in_past_last_n_months']);
 
         return sprintf(
-            '<div vue-entry="RebelFunnels.ManageFunnels" rearchive-months="%d" max-steps="%d"></div>',
+            '<div vue-entry="RebelFunnels.ManageFunnels" rearchive-months="%d" max-steps="%d" currency="%s"></div>',
             $months,
-            StaticContainer::get(SystemSettings::class)->getMaxSteps()
+            StaticContainer::get(SystemSettings::class)->getMaxSteps(),
+            htmlspecialchars(Site::getCurrencySymbolFor(Request::fromRequest()->getIntegerParameter('idSite')), ENT_QUOTES)
         );
     }
 }

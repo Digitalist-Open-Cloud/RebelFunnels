@@ -22,13 +22,14 @@ class FunnelCounter
 
     /**
      * @param array[] $steps
-     * @return array<int, array{nb_visits: int, sum_time: int, next: array<string, int>}> per
-     *         step, the visits that reached it, the seconds they took from the step before
-     *         and, by label, how many visits that did not reach the next step did what next
+     * @return array<int, array{nb_visits: int, sum_time: int, revenue: float, next: array<string, int>}>
+     *         per step, the visits that reached it, the seconds they took from the step before,
+     *         the revenue of the conversions that reached it and, by label, how many visits
+     *         that did not reach the next step did what next
      */
     public function count(LogAggregator $logAggregator, array $steps): array
     {
-        $counts = array_fill(0, count($steps), ['nb_visits' => 0, 'sum_time' => 0, 'next' => []]);
+        $counts = array_fill(0, count($steps), ['nb_visits' => 0, 'sum_time' => 0, 'revenue' => 0.0, 'next' => []]);
 
         // Visit ID => when the visit reached the previous step: the time, and the ID of the
         // action. The ID is 0 for a conversion that no action triggered.
@@ -37,6 +38,8 @@ class FunnelCounter
         foreach ($steps as $index => $step) {
             $previous = $reached;
             $reached = [];
+            // Visit ID => the revenue of the conversion the visit reached the step with.
+            $revenues = [];
             $onlyNext = $index > 0 && !empty($step['direct']) ? $this->getNextActions($logAggregator, $previous) : null;
 
             // ponytail: steps after the first read every match of the day. Join a temporary
@@ -56,12 +59,14 @@ class FunnelCounter
                     }
                     if (!isset($reached[$idVisit]) || $moment < $reached[$idVisit]) {
                         $reached[$idVisit] = $moment;
+                        $revenues[$idVisit] = (float) ($row['revenue'] ?? 0);
                     }
                 }
                 $cursor->closeCursor();
             }
 
             $counts[$index]['nb_visits'] = count($reached);
+            $counts[$index]['revenue'] = round(array_sum($revenues), 2);
             if ($index > 0) {
                 foreach ($reached as $idVisit => [$time]) {
                     $counts[$index]['sum_time'] += max(0, $time - $previous[$idVisit][0]);
@@ -128,7 +133,8 @@ class FunnelCounter
         $idGoals = Rules::getGoalIds($rules);
         if ($idGoals) {
             $query = $logAggregator->generateQuery(
-                'log_conversion.idvisit AS idvisit, log_conversion.idlink_va AS idlink_va, UNIX_TIMESTAMP(log_conversion.server_time) AS time',
+                'log_conversion.idvisit AS idvisit, log_conversion.idlink_va AS idlink_va, '
+                . 'UNIX_TIMESTAMP(log_conversion.server_time) AS time, log_conversion.revenue AS revenue',
                 ['log_conversion'],
                 $logAggregator->getWhereStatement('log_conversion', 'server_time') . ' AND log_conversion.idgoal IN (' . implode(',', array_map('intval', $idGoals)) . ')',
                 false,

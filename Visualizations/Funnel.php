@@ -10,6 +10,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Request;
 use Piwik\Segment;
+use Piwik\Site;
 
 /**
  * Shows the steps of a funnel as bars, with how many visits went on and how many left between
@@ -67,6 +68,7 @@ class Funnel extends Visualization
             }
         }
 
+        $this->assignTemplateVar('currency', Site::getCurrencySymbolFor($idSite));
         $this->assignTemplateVar('idFunnel', $request->getIntegerParameter('idFunnel', 0));
         $this->assignTemplateVar('steps', $this->getSteps($period, $date, null));
         $this->assignTemplateVar('comparisons', $comparisons);
@@ -96,6 +98,7 @@ class Funnel extends Visualization
                 'funnel_proceeded' => $row->hasColumn('funnel_proceeded') ? (int) $row->getColumn('funnel_proceeded') : null,
                 'funnel_exits' => $row->hasColumn('funnel_exits') ? (int) $row->getColumn('funnel_exits') : null,
                 'funnel_avg_step_time' => (int) $row->getColumn('funnel_avg_step_time'),
+                'funnel_revenue' => (float) $row->getColumn('funnel_revenue'),
                 'idsubtable' => $row->getIdSubDataTable(),
             ];
         }

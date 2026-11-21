@@ -1,0 +1,43 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'RebelFunnels_Documentation'|translate }}{% endset %}
+
+{% block content %}
+<div class="card rebelFunnelsDocumentation">
+    <div class="card-content">
+        <h2 class="card-title">{{ 'RebelFunnels_Documentation'|translate }}</h2>
+        <p>{{ 'RebelFunnels_ManageFunnelsIntro'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocCountingTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocCounting'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocRulesTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocRules'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocDirectTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocDirect'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocGoalsTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocGoals'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocNextTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocNext'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocSegmentTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocSegment'|translate }}</p>
+
+        <h3>{{ 'RebelFunnels_DocRebuildTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocRebuild'|translate(rearchiveMonths) }}</p>
+
+        <h3>{{ 'RebelFunnels_DocArchiveTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocArchive'|translate }}</p>
+        <pre>./console rebelfunnels:list
+./console rebelfunnels:archive
+./console rebelfunnels:archive --idfunnel=3
+./console rebelfunnels:archive --idfunnel=3 --rearchive --date=2024-01-01,2024-03-31</pre>
+
+        <h3>{{ 'RebelFunnels_DocLimitsTitle'|translate }}</h3>
+        <p>{{ 'RebelFunnels_DocLimits'|translate(maxSteps) }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\RebelFunnels\Metrics\Ratio;
+use Piwik\Plugins\RebelFunnels\Metrics\Revenue;
 
 /**
  * How many visits entered a funnel and how many reached its last step, over time.
@@ -19,6 +20,7 @@ class GetSummary extends FunnelReport
         $this->metrics = ['funnel_entries', 'funnel_conversions'];
         $this->processedMetrics = [
             new Ratio('funnel_conversion_rate', 'General_ColumnConversionRate', 'funnel_conversions', 'funnel_entries'),
+            new Revenue(),
         ];
 
         parent::init();
@@ -41,6 +43,6 @@ class GetSummary extends FunnelReport
         parent::configureView($view);
 
         $view->config->columns_to_display = ['funnel_conversion_rate'];
-        $view->config->selectable_columns = ['funnel_conversion_rate', 'funnel_entries', 'funnel_conversions'];
+        $view->config->selectable_columns = ['funnel_conversion_rate', 'funnel_entries', 'funnel_conversions', 'funnel_revenue'];
     }
 }

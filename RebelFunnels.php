@@ -133,6 +133,14 @@ class RebelFunnels extends Plugin
         $translationKeys[] = 'RebelFunnels_CreateNewFunnel';
         $translationKeys[] = 'RebelFunnels_DaysWaiting';
         $translationKeys[] = 'RebelFunnels_DeleteFunnelConfirm';
+        $translationKeys[] = 'RebelFunnels_Documentation';
+        $translationKeys[] = 'RebelFunnels_ExampleThirdPage';
+        $translationKeys[] = 'RebelFunnels_ExampleSecondPage';
+        $translationKeys[] = 'RebelFunnels_ExampleFirstPage';
+        $translationKeys[] = 'RebelFunnels_ExampleOrder';
+        $translationKeys[] = 'RebelFunnels_ExampleDepth';
+        $translationKeys[] = 'RebelFunnels_StartFromExample';
+        $translationKeys[] = 'RebelFunnels_RevenueOf';
         $translationKeys[] = 'RebelFunnels_ChooseGoal';
         $translationKeys[] = 'RebelFunnels_GoalCart';
         $translationKeys[] = 'RebelFunnels_GoalOrder';

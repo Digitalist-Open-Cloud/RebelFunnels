@@ -45,7 +45,7 @@ class ArchivingTest extends IntegrationTestCase
         $_GET['idSite'] = $this->idSite;
         $this->api = API::getInstance();
 
-        $this->idUrlGoal = GoalsApi::getInstance()->addGoal($this->idSite, 'Thanks page', 'url', '/thanks', 'contains');
+        $this->idUrlGoal = GoalsApi::getInstance()->addGoal($this->idSite, 'Thanks page', 'url', '/thanks', 'contains', false, 12.5);
         $this->idManualGoal = GoalsApi::getInstance()->addGoal($this->idSite, 'Newsletter', 'manually', '', '');
         FunnelVisits::track($this->idSite, $this->idManualGoal);
     }
@@ -174,6 +174,23 @@ class ArchivingTest extends IntegrationTestCase
         ];
     }
 
+    public function testAStepReachedByAGoalHasTheRevenueOfItsConversions()
+    {
+        $steps = [
+            self::CHECKOUT[0],
+            ['name' => 'Converted', 'rules' => [['type' => 'goal', 'value' => (string) $this->idUrlGoal]]],
+        ];
+        $idFunnel = $this->api->addFunnel($this->idSite, 'To the goal', $steps);
+        $request = ['idSite' => $this->idSite, 'idFunnel' => $idFunnel, 'period' => 'week', 'date' => FunnelVisits::DAY, 'format_metrics' => '0'];
+
+        $stepRows = Request::processRequest('RebelFunnels.getSteps', $request);
+        $summary = Request::processRequest('RebelFunnels.getSummary', $request);
+
+        $this->assertSame([0.0, 12.5], array_map('floatval', $stepRows->getColumn('funnel_revenue')));
+        $this->assertSame(12.5, (float) $summary->getFirstRow()->getColumn('funnel_revenue'));
+        $this->assertSame([false, false], $stepRows->getColumn('revenue'), 'only there to calculate the revenue');
+    }
+
     public function testSummaryHasEntriesConversionsAndTheirRate()
     {
         $idFunnel = $this->api->addFunnel($this->idSite, 'Checkout', self::CHECKOUT);
@@ -187,7 +204,7 @@ class ArchivingTest extends IntegrationTestCase
         ]);
 
         $this->assertEquals(
-            ['funnel_entries' => 4, 'funnel_conversions' => 1, 'funnel_conversion_rate' => 0.25],
+            ['funnel_entries' => 4, 'funnel_conversions' => 1, 'funnel_conversion_rate' => 0.25, 'funnel_revenue' => 0],
             $summary->getFirstRow()->getColumns()
         );
     }
@@ -199,8 +216,8 @@ class ArchivingTest extends IntegrationTestCase
         $steps = $this->api->previewFunnel($this->idSite, array_slice(self::CHECKOUT, 0, 2));
 
         $this->assertSame([
-            ['name' => 'Cart', 'nb_visits' => 5, 'funnel_proceeded' => 2, 'funnel_exits' => 3, 'funnel_avg_step_time' => 0],
-            ['name' => 'Shipping', 'nb_visits' => 2, 'funnel_proceeded' => null, 'funnel_exits' => null, 'funnel_avg_step_time' => 90],
+            ['name' => 'Cart', 'nb_visits' => 5, 'funnel_proceeded' => 2, 'funnel_exits' => 3, 'funnel_avg_step_time' => 0, 'funnel_revenue' => 0.0],
+            ['name' => 'Shipping', 'nb_visits' => 2, 'funnel_proceeded' => null, 'funnel_exits' => null, 'funnel_avg_step_time' => 90, 'funnel_revenue' => 0.0],
         ], $steps);
     }
 

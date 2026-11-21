@@ -12,6 +12,9 @@
         <span class="funnelChart__counts">
           {{ translate('RebelFunnels_ConversionsOfEntries', number(conversions), number(entries)) }}
         </span>
+        <span class="funnelChart__counts" v-if="revenueOfLastStep">
+          {{ translate('RebelFunnels_RevenueOf', money(revenueOfLastStep)) }}
+        </span>
       </div>
       <div
         class="funnelChart__comparison"
@@ -40,6 +43,9 @@
               class="funnelChart__bar"
               :style="{ width: `${(step.nb_visits / entries) * 100}%` }"
             />
+          </div>
+          <div class="funnelChart__revenue" v-if="step.funnel_revenue">
+            {{ translate('RebelFunnels_RevenueOf', money(step.funnel_revenue)) }}
           </div>
           <div class="funnelChart__between" v-if="step.funnel_proceeded !== null">
             <span class="funnelChart__proceeded">
@@ -96,6 +102,11 @@ export default defineComponent({
       type: Array as PropType<Comparison[]>,
       default: () => [],
     },
+    // The currency symbol of the website, for the revenue of goal steps.
+    currency: {
+      type: String,
+      default: '',
+    },
     // Needed to load what visits did after a step.
     idFunnel: {
       type: Number,
@@ -114,6 +125,9 @@ export default defineComponent({
     },
     conversions(): number {
       return this.steps.length ? this.steps[this.steps.length - 1].nb_visits : 0;
+    },
+    revenueOfLastStep(): number {
+      return this.steps.length ? this.steps[this.steps.length - 1].funnel_revenue || 0 : 0;
     },
   },
   methods: {
@@ -142,6 +156,9 @@ export default defineComponent({
           this.nextActions = actions;
         }
       });
+    },
+    money(value: number): string {
+      return NumberFormatter.formatCurrency(value, this.currency, 2, 0);
     },
     number(value: number|null): string {
       return NumberFormatter.formatNumber(value || 0);

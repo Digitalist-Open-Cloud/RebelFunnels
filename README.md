@@ -19,7 +19,8 @@ and show the past as far back as Matomo re-archives reports.
 - A rule can also be "Goal converted": the step is reached when the visit converts a goal of
   the website, places an ecommerce order or abandons a cart. A conversion counts when it
   happens after the step before, also when the page of that step is what converts the goal.
-  A funnel for all websites can use orders and carts, but no goals.
+  A funnel for all websites can use orders and carts, but no goals. Such a step also shows
+  the revenue of its conversions.
 - Upper and lower case make no difference. URLs are compared without `https://` and `www.`.
   A regular expression is used as it is written, against the URL without them.
 - A step can be set to count only when it comes directly after the step before: the very next
@@ -49,7 +50,10 @@ activate it:
 
 Funnels are created under Funnels > Manage funnels, by users with write access to the website.
 The editor shows a preview of the last 7 days while you build, and tells which steps a URL you
-paste matches. A super user can make a funnel for all websites.
+paste matches. A super user can make a funnel for all websites. Two examples under the list
+open the editor filled in, to change into a funnel of your own.
+
+Administration > System > Funnels documentation describes how funnels count.
 
 Changing the rules, the order rule of a step or the segment of a funnel builds its data again.
 Changing names does not.

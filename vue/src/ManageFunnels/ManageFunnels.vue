@@ -5,13 +5,15 @@
       :funnels="funnels"
       :archive-status="archiveStatus"
       :is-loading="isLoading"
-      @create="edit(null)"
+      @create="edit(null, $event)"
       @edit="edit($event)"
       @changed="onChanged()"
     />
     <FunnelEditor
       v-if="isEditing"
       :funnel="editedFunnel"
+      :template="template"
+      :currency="currency"
       :rearchive-months="rearchiveMonths"
       :max-steps="maxSteps"
       @saved="onChanged()"
@@ -25,7 +27,7 @@ import { defineComponent } from 'vue';
 import { AjaxHelper, Matomo, ReportingMenuStore } from 'CoreHome';
 import FunnelsList from '../FunnelsList/FunnelsList.vue';
 import FunnelEditor from '../FunnelEditor/FunnelEditor.vue';
-import { ArchiveStatus, Funnel } from '../types';
+import { ArchiveStatus, Funnel, FunnelTemplate } from '../types';
 
 export default defineComponent({
   props: {
@@ -37,6 +39,10 @@ export default defineComponent({
       type: Number,
       default: 10,
     },
+    currency: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     FunnelsList,
@@ -47,6 +53,7 @@ export default defineComponent({
       isLoading: true,
       isEditing: false,
       editedFunnel: null as Funnel|null,
+      template: null as FunnelTemplate|null,
       funnels: [] as Funnel[],
       archiveStatus: [] as ArchiveStatus[],
     };
@@ -73,8 +80,9 @@ export default defineComponent({
         this.funnels = funnels;
       });
     },
-    edit(funnel: Funnel|null) {
+    edit(funnel: Funnel|null, template: FunnelTemplate|null = null) {
       this.editedFunnel = funnel;
+      this.template = template;
       this.isEditing = true;
       Matomo.helper.lazyScrollToContent();
     },

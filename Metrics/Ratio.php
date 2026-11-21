@@ -66,6 +66,11 @@ class Ratio extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
+        if (!is_numeric($value)) {
+            // A cell that is left blank on purpose.
+            return $value;
+        }
+
         return $this->isDuration ? $formatter->getPrettyTimeFromSeconds($value, true) : $formatter->getPrettyPercentFromQuotient($value);
     }
 
