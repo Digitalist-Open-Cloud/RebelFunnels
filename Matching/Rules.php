@@ -2,7 +2,9 @@
 
 namespace Piwik\Plugins\RebelFunnels\Matching;
 
+use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugin\Manager;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 
@@ -29,6 +31,13 @@ class Rules
     public const GOAL = 'goal';
     public const ECOMMERCE_GOALS = ['order' => GoalManager::IDGOAL_ORDER, 'cart' => GoalManager::IDGOAL_CART];
 
+    // A rule of these types is matched by a form that the plugin RebelMyForms stored, by the name
+    // of the form. Rule type => how far the visitor has to have got with the form, as that plugin
+    // numbers it.
+    public const FORM_TYPES = ['form_start' => 1, 'form_submit' => 2, 'form_success' => 3];
+    public const FORMS_PLUGIN = 'RebelMyForms';
+    public const FORMS_TABLE = 'rebelmyforms_log';
+
     public const OPERATORS = ['equals', 'contains', 'starts_with', 'ends_with', 'regex'];
 
     private const URL_TYPES = ['url', 'download', 'outlink'];
@@ -40,7 +49,7 @@ class Rules
      */
     public static function getActionRules(array $rules): array
     {
-        return array_values(array_filter($rules, fn (array $rule) => $rule['type'] !== self::GOAL));
+        return array_values(array_filter($rules, fn (array $rule) => isset(self::TYPES[$rule['type']])));
     }
 
     /**
@@ -57,6 +66,58 @@ class Rules
         }
 
         return array_values(array_unique($ids));
+    }
+
+    public static function canUseForms(): bool
+    {
+        return Manager::getInstance()->isPluginActivated(self::FORMS_PLUGIN);
+    }
+
+    /**
+     * @param array[] $rules
+     * @return array[] the rules that stored forms are compared with
+     */
+    public static function getFormRules(array $rules): array
+    {
+        return array_values(array_filter($rules, fn (array $rule) => isset(self::FORM_TYPES[$rule['type']])));
+    }
+
+    /**
+     * @param array[] $rules form rules
+     * @param bool $onlySubmitted only the rules that need the form to be submitted
+     * @return string a condition that is true for the stored forms any of the rules match
+     */
+    public static function getFormCondition(array $rules, bool $onlySubmitted = false): string
+    {
+        $conditions = ['0'];
+        foreach ($rules as $rule) {
+            $outcome = self::FORM_TYPES[$rule['type']];
+            if ($onlySubmitted && $outcome < self::FORM_TYPES['form_submit']) {
+                continue;
+            }
+            // The names of forms are stored encoded for HTML.
+            if ($rule['operator'] !== 'regex') {
+                $rule['value'] = Common::sanitizeInputValue($rule['value']);
+            }
+            $conditions[] = '(' . self::FORMS_TABLE . ".outcome >= $outcome AND " . self::compare(self::FORMS_TABLE . '.form_name', $rule) . ')';
+        }
+
+        return '(' . implode(' OR ', $conditions) . ')';
+    }
+
+    /**
+     * When a stored form matched the rules: when it was started, or when it was submitted for a
+     * rule that needs that. The form is stored with the time it was seen and how long it took
+     * from there.
+     *
+     * @param array[] $rules form rules
+     */
+    public static function getFormTime(array $rules): string
+    {
+        $table = self::FORMS_TABLE;
+
+        return "UNIX_TIMESTAMP($table.server_time) + FLOOR(($table.time_to_start + IF("
+            . self::getFormCondition($rules, true) . ", $table.time_spent, 0)) / 1000)";
     }
 
     /**

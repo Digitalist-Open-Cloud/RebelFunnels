@@ -152,6 +152,12 @@ class RebelFunnels extends Plugin
         $translationKeys[] = 'RebelFunnels_GoalCart';
         $translationKeys[] = 'RebelFunnels_GoalOrder';
         $translationKeys[] = 'RebelFunnels_RuleType_goal';
+        $translationKeys[] = 'RebelFunnels_RuleType_form_start';
+        $translationKeys[] = 'RebelFunnels_RuleType_form_submit';
+        $translationKeys[] = 'RebelFunnels_RuleType_form_success';
+        $translationKeys[] = 'RebelFunnels_RuleExample_form_start';
+        $translationKeys[] = 'RebelFunnels_RuleExample_form_submit';
+        $translationKeys[] = 'RebelFunnels_RuleExample_form_success';
         $translationKeys[] = 'RebelFunnels_WhereTheyWent';
         $translationKeys[] = 'RebelFunnels_ShowNext';
         $translationKeys[] = 'RebelFunnels_Direct';

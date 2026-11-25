@@ -268,6 +268,10 @@ const SUGGESTION_SEGMENTS: Record<string, string> = {
   search: 'siteSearchKeyword',
 };
 
+// The rule types that are matched by a form of the plugin RebelMyForms, by the name of the form.
+const FORM_TYPES = ['form_start', 'form_submit', 'form_success'];
+const FORM_SEGMENT = 'formName';
+
 const NOTIFICATION_ID = 'rebelFunnelsSaved';
 const TYPING_PAUSE = 600;
 
@@ -349,6 +353,8 @@ export default defineComponent({
       dragged: null as number|null,
       suggestions: {} as Record<string, string[]>,
       siteGoals: [] as { value: string, name: string }[],
+      // The names of the forms of the website, or null when forms are not tracked.
+      formNames: null as string[]|null,
       testUrl: '',
       testResult: [] as boolean[],
       isTested: false,
@@ -368,7 +374,7 @@ export default defineComponent({
       return Matomo.hasSuperUserAccess;
     },
     ruleTypes(): string[] {
-      return [...Object.keys(SUGGESTION_SEGMENTS), 'goal'];
+      return [...Object.keys(SUGGESTION_SEGMENTS), 'goal', ...(this.formNames ? FORM_TYPES : [])];
     },
     // What a goal rule can be matched by. A funnel for all websites has no goals in common.
     goals(): { value: string, name: string }[] {
@@ -433,6 +439,15 @@ export default defineComponent({
     }).catch(() => {
       // Without the Goals plugin only orders and carts can be chosen.
     });
+
+    AjaxHelper.fetch<string[]>({
+      method: 'API.getSuggestedValuesForSegment',
+      segmentName: FORM_SEGMENT,
+    }, { createErrorNotification: false }).then((names) => {
+      this.formNames = names.map((name) => Matomo.helper.htmlDecode(name));
+    }).catch(() => {
+      // Without the plugin RebelMyForms a step cannot be a form.
+    });
   },
   beforeUnmount() {
     window.clearTimeout(this.timer);
@@ -465,6 +480,10 @@ export default defineComponent({
     // The values to suggest. Without them the value can still be typed.
     fetchSuggestions(type: string) {
       if (this.suggestions[type]) {
+        return;
+      }
+      if (FORM_TYPES.includes(type)) {
+        this.suggestions[type] = this.formNames || [];
         return;
       }
 

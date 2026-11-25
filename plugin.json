@@ -1,7 +1,7 @@
 {
     "name": "RebelFunnels",
     "description": "See how many visits get through the steps of a funnel, and where they leave.",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "theme": false,
     "require": {
         "php": ">=7.4.0",
