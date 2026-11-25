@@ -10,7 +10,8 @@ use Piwik\Plugins\RebelFunnels\Matching\Rules;
  * Counts from the raw log how many visits reach each step of a funnel, and what the visits
  * that left at a step did next. A visit reaches a step with the first action that matches it
  * after the action it reached the step before with. A step marked "direct" has to be matched
- * by the very next action of the visit. A step can also be reached by converting a goal.
+ * by the very next action of the visit. A step can also be reached by converting a goal, or
+ * by starting or submitting a form.
  */
 class FunnelCounter
 {
@@ -19,6 +20,11 @@ class FunnelCounter
     public const NEXT_OTHER = 'other';
 
     private const VISITS_PER_QUERY = 1000;
+
+    // What a step is matched by.
+    private const ACTIONS = 0;
+    private const CONVERSIONS = 1;
+    private const FORMS = 2;
 
     /**
      * @param array[] $steps
@@ -44,13 +50,13 @@ class FunnelCounter
 
             // ponytail: steps after the first read every match of the day. Join a temporary
             // table of the visits still in the funnel if that gets slow.
-            foreach ($this->query($logAggregator, $step['rules'], $index === 0) as $isConversion => $cursor) {
+            foreach ($this->query($logAggregator, $step['rules'], $index === 0) as $source => $cursor) {
                 while ($row = $cursor->fetch()) {
                     $idVisit = $row['idvisit'];
                     $moment = [(int) $row['time'], (int) $row['idlink_va']];
 
                     if ($index > 0) {
-                        if (!isset($previous[$idVisit]) || !$this->isAfter($moment, $previous[$idVisit], (bool) $isConversion)) {
+                        if (!isset($previous[$idVisit]) || !$this->isAfter($moment, $previous[$idVisit], $source === self::CONVERSIONS)) {
                             continue;
                         }
                         if ($onlyNext !== null && $moment[1] !== ($onlyNext[$idVisit][0] ?? null)) {
@@ -87,8 +93,8 @@ class FunnelCounter
     /**
      * Whether something happened after a visit reached the previous step. An action has to be a
      * later action. A conversion can also be triggered by the action that reached that step.
-     * Without two actions to compare, as with a goal triggered from the tracking code, time
-     * decides, and the same second counts as after.
+     * Without two actions to compare, as with a goal triggered from the tracking code or with a
+     * form, time decides, and the same second counts as after.
      *
      * @param array{0: int, 1: int} $moment time and action ID
      * @param array{0: int, 1: int} $previous
@@ -104,7 +110,7 @@ class FunnelCounter
 
     /**
      * @return \Zend_Db_Statement[] what matches the rules in the period, each row with idvisit,
-     *         idlink_va and time: the actions under the key 0 and the conversions under 1.
+     *         idlink_va and time, by what they are: ACTIONS, CONVERSIONS or FORMS.
      *         With $firstPerVisit only the first action of each visit.
      */
     private function query(LogAggregator $logAggregator, array $rules, bool $firstPerVisit): array
@@ -127,7 +133,7 @@ class FunnelCounter
                 $firstPerVisit ? 'log_link_visit_action.idvisit' : false,
                 false
             );
-            $cursors[0] = $logAggregator->getDb()->query($query['sql'], $query['bind']);
+            $cursors[self::ACTIONS] = $logAggregator->getDb()->query($query['sql'], $query['bind']);
         }
 
         $idGoals = Rules::getGoalIds($rules);
@@ -140,7 +146,21 @@ class FunnelCounter
                 false,
                 false
             );
-            $cursors[1] = $logAggregator->getDb()->query($query['sql'], $query['bind']);
+            $cursors[self::CONVERSIONS] = $logAggregator->getDb()->query($query['sql'], $query['bind']);
+        }
+
+        // Without the plugin that stores the forms, a form rule matches nothing.
+        $formRules = Rules::getFormRules($rules);
+        if ($formRules && Rules::canUseForms()) {
+            $forms = Rules::FORMS_TABLE;
+            $query = $logAggregator->generateQuery(
+                "$forms.idvisit AS idvisit, 0 AS idlink_va, " . Rules::getFormTime($formRules) . ' AS time',
+                [$forms],
+                $logAggregator->getWhereStatement($forms, 'server_time') . ' AND ' . Rules::getFormCondition($formRules),
+                false,
+                false
+            );
+            $cursors[self::FORMS] = $logAggregator->getDb()->query($query['sql'], $query['bind']);
         }
 
         return $cursors;

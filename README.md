@@ -21,6 +21,10 @@ and show the past as far back as Matomo re-archives reports.
   happens after the step before, also when the page of that step is what converts the goal.
   A funnel for all websites can use orders and carts, but no goals. Such a step also shows
   the revenue of its conversions.
+- With the plugin RebelMyForms active, a rule can be "Form started", "Form submitted" or "Form
+  went through", for the forms whose name matches. The step is reached at the time the form
+  was started or submitted. Such a step cannot be set to come directly after the step before.
+  Without RebelMyForms these rules match nothing.
 - Upper and lower case make no difference. URLs are compared without `https://` and `www.`.
   A regular expression is used as it is written, against the URL without them.
 - A step can be set to count only when it comes directly after the step before: the very next

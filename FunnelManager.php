@@ -231,12 +231,15 @@ class FunnelManager
                 throw new Exception(Piwik::translate('RebelFunnels_ErrorStepRules', [$number, self::MAX_RULES_PER_STEP]));
             }
 
-            $valid[] = [
-                'name' => $name,
-                'rules' => array_map(fn ($rule) => $this->validateRule($rule, $number, $idGoals), array_values($rules)),
-                // The first step has no step before it.
-                'direct' => $index > 0 && in_array($step['direct'] ?? false, [true, 1, '1', 'true'], true),
-            ];
+            $rules = array_map(fn ($rule) => $this->validateRule($rule, $number, $idGoals), array_values($rules));
+            // The first step has no step before it.
+            $direct = $index > 0 && in_array($step['direct'] ?? false, [true, 1, '1', 'true'], true);
+            // A form is not an action of the visit, so it is never the very next one.
+            if ($direct && Rules::getFormRules($rules)) {
+                throw new Exception(Piwik::translate('RebelFunnels_ErrorDirectForm', [$number]));
+            }
+
+            $valid[] = ['name' => $name, 'rules' => $rules, 'direct' => $direct];
         }
 
         return $valid;
@@ -261,8 +264,9 @@ class FunnelManager
             return ['type' => $type, 'operator' => 'equals', 'value' => $value];
         }
 
-        if (!isset(Rules::TYPES[$type])) {
-            throw new Exception(Piwik::translate('RebelFunnels_ErrorRuleType', [$stepNumber, implode(', ', array_merge(array_keys(Rules::TYPES), [Rules::GOAL]))]));
+        $types = array_merge(array_keys(Rules::TYPES), [Rules::GOAL], Rules::canUseForms() ? array_keys(Rules::FORM_TYPES) : []);
+        if (!in_array($type, $types, true)) {
+            throw new Exception(Piwik::translate('RebelFunnels_ErrorRuleType', [$stepNumber, implode(', ', $types)]));
         }
         if (!in_array($operator, Rules::OPERATORS, true)) {
             throw new Exception(Piwik::translate('RebelFunnels_ErrorRuleOperator', [$stepNumber, implode(', ', Rules::OPERATORS)]));

@@ -29,6 +29,8 @@ use Piwik\Tracker\Action;
  * action that any of its rules match. Matching ignores case, and URLs are compared without
  * protocol and "www.".
  *
+ * A rule of the type "form_start", "form_submit" or "form_success" is matched by a form of the
+ * plugin RebelMyForms whose name matches, when that plugin is active.
  * A rule of the type "goal" is matched by a conversion instead: its "value" is the ID of a goal
  * of the website, "order" for an ecommerce order or "cart" for an abandoned cart. It needs no
  * operator. A funnel for all websites can only use "order" and "cart".

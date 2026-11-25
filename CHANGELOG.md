@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- With the plugin RebelMyForms, a step can be a form that was started, submitted or went through.
+
 ## [0.3.0] - 2026-11-21
 
 ### Added
