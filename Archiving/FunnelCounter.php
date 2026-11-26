@@ -43,33 +43,11 @@ class FunnelCounter
 
         foreach ($steps as $index => $step) {
             $previous = $reached;
-            $reached = [];
             // Visit ID => the revenue of the conversion the visit reached the step with.
             $revenues = [];
             $onlyNext = $index > 0 && !empty($step['direct']) ? $this->getNextActions($logAggregator, $previous) : null;
 
-            // ponytail: steps after the first read every match of the day. Join a temporary
-            // table of the visits still in the funnel if that gets slow.
-            foreach ($this->query($logAggregator, $step['rules'], $index === 0) as $source => $cursor) {
-                while ($row = $cursor->fetch()) {
-                    $idVisit = $row['idvisit'];
-                    $moment = [(int) $row['time'], (int) $row['idlink_va']];
-
-                    if ($index > 0) {
-                        if (!isset($previous[$idVisit]) || !$this->isAfter($moment, $previous[$idVisit], $source === self::CONVERSIONS)) {
-                            continue;
-                        }
-                        if ($onlyNext !== null && $moment[1] !== ($onlyNext[$idVisit][0] ?? null)) {
-                            continue;
-                        }
-                    }
-                    if (!isset($reached[$idVisit]) || $moment < $reached[$idVisit]) {
-                        $reached[$idVisit] = $moment;
-                        $revenues[$idVisit] = (float) ($row['revenue'] ?? 0);
-                    }
-                }
-                $cursor->closeCursor();
-            }
+            $reached = $this->reach($logAggregator, $step, $index, $previous, $onlyNext, $revenues);
 
             $counts[$index]['nb_visits'] = count($reached);
             $counts[$index]['revenue'] = round(array_sum($revenues), 2);
@@ -88,6 +66,66 @@ class FunnelCounter
         }
 
         return $this->labelNextActions($logAggregator, $counts);
+    }
+
+    /**
+     * @param array[] $steps
+     * @return array<int|string, array{0: int, 1: int}> the visits that reached the last step, by
+     *         visit ID: the time they reached it, and the ID of the action they reached it with,
+     *         which is 0 when no action did
+     */
+    public function getCompletions(LogAggregator $logAggregator, array $steps): array
+    {
+        $reached = [];
+        foreach ($steps as $index => $step) {
+            $revenues = [];
+            $onlyNext = $index > 0 && !empty($step['direct']) ? $this->getNextActions($logAggregator, $reached) : null;
+            $reached = $this->reach($logAggregator, $step, $index, $reached, $onlyNext, $revenues);
+            if (empty($reached)) {
+                break;
+            }
+        }
+
+        return $reached;
+    }
+
+    /**
+     * The visits that reach a step after they reached the one before it.
+     *
+     * @param array<int|string, array{0: int, 1: int}> $previous visit ID => when the visit reached the step before
+     * @param array<int|string, array{0: int, 1: int}>|null $onlyNext for a step that has to come directly
+     *        after: visit ID => the action that came next
+     * @param array<int|string, float> $revenues is given the revenue of the conversion a visit reached the step with
+     * @return array<int|string, array{0: int, 1: int}> visit ID => the time and the ID of the action
+     */
+    private function reach(LogAggregator $logAggregator, array $step, int $index, array $previous, ?array $onlyNext, array &$revenues): array
+    {
+        $reached = [];
+
+        // ponytail: steps after the first read every match of the day. Join a temporary
+        // table of the visits still in the funnel if that gets slow.
+        foreach ($this->query($logAggregator, $step['rules'], $index === 0) as $source => $cursor) {
+            while ($row = $cursor->fetch()) {
+                $idVisit = $row['idvisit'];
+                $moment = [(int) $row['time'], (int) $row['idlink_va']];
+
+                if ($index > 0) {
+                    if (!isset($previous[$idVisit]) || !$this->isAfter($moment, $previous[$idVisit], $source === self::CONVERSIONS)) {
+                        continue;
+                    }
+                    if ($onlyNext !== null && $moment[1] !== ($onlyNext[$idVisit][0] ?? null)) {
+                        continue;
+                    }
+                }
+                if (!isset($reached[$idVisit]) || $moment < $reached[$idVisit]) {
+                    $reached[$idVisit] = $moment;
+                    $revenues[$idVisit] = (float) ($row['revenue'] ?? 0);
+                }
+            }
+            $cursor->closeCursor();
+        }
+
+        return $reached;
     }
 
     /**

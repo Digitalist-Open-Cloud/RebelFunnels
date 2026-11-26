@@ -5,6 +5,7 @@
 ### Added
 
 - With the plugin RebelMyForms, a step can be a form that was started, submitted or went through.
+- The plugin RebelPaths can show what visits viewed before they completed a funnel.
 
 ## [0.3.0] - 2026-11-21
 
